@@ -5,10 +5,13 @@ create table cliente (
 	nome varchar(255) not null,
 	telefone varchar(13) not null,
 	email varchar(100) not null,
-	cartaoCredito varchar(16) not null
+	cartaoCredito varchar(16) not null,
 
 	primary key(id)
 );
+
+select *
+from cliente;
 
 create table endereco (
 	id serial not null,
@@ -23,64 +26,75 @@ create table endereco (
 	primary key(id)
 );
 
+select *
+from endereco;
+
 create table fornecedor (
-id serial not null,
-nome varchar(60) not null,
-descricao varchar(255),
-telefone varchar(13) not null,
-email varchar(100),
-primary key(id)
+	id serial not null,
+	nome varchar(60) not null,
+	descricao varchar(255),
+	telefone varchar(13) not null,
+	email varchar(100),
+	
+	primary key(id)
 );
 
+select *
+from fornecedor;
+
 create table produto (
-id serial not null,
-nome varchar(60) not null,
-placa char(7) not null,
-cor varchar(20),
-marca_id int,
-primary key(id)
+	id serial not null,
+	nome varchar(60) not null,
+	placa char(7) not null,
+	cor varchar(20) not null,
+	marca_id int not null,
+	
+	primary key(id)
 );
+
+select *
+from produto;
 
 create table estoque (
 	id serial not null,
-	id_produto int not null,
-	qtd int,
-	preco double precision,
+	produto_id int not null,
+	qtd int not null,
+	preco double precision not null,
 	
-	primary key(id)
+	primary key(id),
 	foreign key (produto_id) references produto(id)
 )
+
+select *
+from estoque;
 
 create table pedido (
 	numero serial not null,
 	dataPedido date not null,
 	dataEntrega date not null,
 	situacao varchar(10) not null,
-	primary key(id),
+	primary key(numero)
 );
 
+select *
+from pedido;
 
 create table itemPedido(
  id serial not null,
- pedido_id int,
- produto_id int,
- quantidade int,
- preco double precision,
+ pedido_id int not null,
+ produto_id int not null,
+ quantidade int not null,
+ preco double precision not null,
 
- foreign key (pedido_id) references pedido(id),
+ foreign key (pedido_id) references pedido(numero),
  foreign key (produto_id) references produto(id)
 );
 
 
-
 select *
-from usuario;
+from itemPedido;
 
-select *
-from marca;
 
-select *
-from veiculo;
 
 insert into cliente(login, senha, nome) values ('krohn','123','Alexandre Krohn');
 insert into cliente(login, senha, nome) values ('alexandre','123','Alexandre K.');
