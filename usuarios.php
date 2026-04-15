@@ -53,6 +53,9 @@ if($usuarios) {
 	   		echo "</td>";
 			echo "<td>{$umUsuario->getLogin()}</td>";
 			echo "<td>{$umUsuario->getNome()}</td>";
+			echo "<td>{$umUsuario->getTelefone()}</td>";
+			echo "<td>{$umUsuario->getEmail()}</td>";
+			echo "<td>{$umUsuario->getCartaoCredito()}</td>";
 			echo "<td>";
  			// link para excluir um usuário
 			echo "<a class='btn btn-danger' href='excluiUsuario.php?id={$umUsuario->getId()}' onclick=\"return confirm('Quer mesmo excluir?');\">X</a>";

@@ -10,8 +10,8 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
     public function insere($usuario) {
 
         $query = "INSERT INTO " . $this->table_name . 
-        " (login, senha, nome) VALUES" .
-        " (:login, :senha, :nome)";
+        " (login, senha, nome, telefone, email, cartaoCredito) VALUES" .
+        " (:login, :senha, :nome, :telefone, :email, :cartaoCredito)";
 
         $stmt = $this->conn->prepare($query);
 
@@ -19,6 +19,9 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
         $stmt->bindParam(":login", $usuario->getLogin());
         $stmt->bindParam(":senha", $usuario->getSenha());
         $stmt->bindParam(":nome", $usuario->getNome());
+        $stmt->bindParam(":telefone", $usuario->getTel());
+        $stmt->bindParam(":email", $usuario->getEmail());
+        $stmt->bindParam(":cartaoCredito", $usuario->getCartaoCredito());
 
         if($stmt->execute()){
             return $this->conn->lastInsertId();;
@@ -48,7 +51,7 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
     public function altera($usuario) {
 
         $query = "UPDATE " . $this->table_name . 
-        " SET login = :login, senha = :senha, nome = :nome" .
+        " SET login = :login, senha = :senha, nome = :nome, telefone = :telefone, email = :email, cartaoCredito = :cartaoCredito" .
         " WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
@@ -57,6 +60,9 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
         $stmt->bindParam(":login", $usuario->getLogin());
         $stmt->bindParam(":senha", $usuario->getSenha());
         $stmt->bindParam(":nome", $usuario->getNome());
+        $stmt->bindParam(":telefone", $usuario->getTel());
+        $stmt->bindParam(":email", $usuario->getEmail());
+        $stmt->bindParam(":cartaoCredito", $usuario->getCartaoCredito());
         $stmt->bindParam(':id', $usuario->getId());
 
         // execute the query
@@ -72,7 +78,7 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
         $usuario = null;
 
         $query = "SELECT
-                    id, login, nome, senha
+                    id, login, senha, nome, telefone, email, cartaoCredito
                 FROM
                     " . $this->table_name . "
                 WHERE
@@ -86,7 +92,7 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
      
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if($row) {
-            $usuario = new Usuario($row['id'],$row['login'], $row['senha'], $row['nome']);
+            $usuario = new Usuario($row['id'],$row['login'], $row['senha'], $row['nome'], $row['telefone'], $row['email'], $row['cartaoCredito']);
         } 
      
         return $usuario;
@@ -97,7 +103,7 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
         $usuario = null;
 
         $query = "SELECT
-                    id, login, nome, senha
+                    id, login, senha, nome, telefone, email, cartaoCredito
                 FROM
                     " . $this->table_name . "
                 WHERE
@@ -111,7 +117,7 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
      
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if($row) {
-            $usuario = new Usuario($row['id'],$row['login'], $row['senha'], $row['nome']);
+            $usuario = new Usuario($row['id'],$row['login'], $row['senha'], $row['nome'], $row['telefone'], $row['email'], $row['cartaoCredito']);
         } 
      
         return $usuario;
@@ -120,7 +126,7 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
     public function buscaTodos() {
 
         $query = "SELECT
-                    id, login, senha, nome
+                    id, login, senha, nome, telefone, email, cartaoCredito
                 FROM
                     " . $this->table_name . 
                     " ORDER BY id ASC";
@@ -132,7 +138,7 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 
             extract($row);
-            $usuario = new Usuario($id,$login,$senha,$nome); 
+            $usuario = new Usuario($id,$login,$senha,$nome,$telefone,$email,$cartaoCredito); 
             $usuarios[] = $usuario;
         }
         return $usuarios;

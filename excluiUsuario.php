@@ -6,7 +6,7 @@ $id = @$_GET["id"];
 
 $dao = $factory->getUsuarioDao();
 
-$usuario = new Usuario($id, null, null, null);
+$usuario = new Usuario($id, null, null, null, null, null, null);
 
 $dao->remove($usuario);
 

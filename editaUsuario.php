@@ -6,7 +6,7 @@ $id = @$_GET["id"];
 $dao = $factory->getUsuarioDao();
 $usuario = $dao->buscaPorId($id);
 if($usuario==null) {
-    $usuario = new Usuario(null,null, null, null);
+    $usuario = new Usuario(null,null,null,null,null,null,null);
 }
 ?>
 
