@@ -5,7 +5,7 @@ include_once('dao/DAO.php');
 
 class PostgresUsuarioDao extends DAO implements UsuarioDao {
 
-    private $table_name = 'usuario';
+    private $table_name = 'cliente';
     
     public function insere($usuario) {
 
