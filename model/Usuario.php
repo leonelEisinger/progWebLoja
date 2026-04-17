@@ -5,11 +5,8 @@ class Usuario {
     private $login;
     private $senha;
     private $nome;
-
     private $telefone;
-    
     private $email;
-    
     private $cartaoCredito;
 
 

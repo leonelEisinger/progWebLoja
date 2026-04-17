@@ -25,7 +25,7 @@ if ( is_session_started() === FALSE ) {
                 if(isset($_SESSION["nome_usuario"])) {
                     // Menu de navegação : só mostra se logado
                     echo "<a class=\"btn btn-primary mx-1\" href=\"usuarios.php\">Usuarios</a>";
-                    echo "<a class=\"btn btn-primary mx-1\" href=\"veiculos.php\">Veiculos</a>";
+                    echo "<a class=\"btn btn-primary mx-1\" href=\"produtos.php\">Produto</a>";
                     echo "<a class=\"btn btn-primary mx-1\" href=\"marcas.php\">Marcas</a>";
                 }
             ?>

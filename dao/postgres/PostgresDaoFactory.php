@@ -2,7 +2,7 @@
 
 include_once('../DaoFactory.php');
 include_once('PostgresUsuarioDao.php');
-include_once('PostgresVeiculoDao.php');
+include_once('PostgresProdutoDao.php');
 include_once('PostgresMarcaDao.php');
 
 class PostgresDaofactory extends DaoFactory {
@@ -12,7 +12,7 @@ class PostgresDaofactory extends DaoFactory {
     private $db_name = "PHP_tutorial";
     private $port = "5432";
     private $username = "postgres";
-    private $password = "123";
+    private $password = "ucs";
     public $conn;
   
     // get the database connection
@@ -36,9 +36,9 @@ class PostgresDaofactory extends DaoFactory {
 
     }
 
-    public function getVeiculoDao() {
+    public function getProdutoDao() {
 
-        return new PostgresVeiculoDao($this->getConnection());
+        return new PostgresProdutoDao($this->getConnection());
 
     }
 
