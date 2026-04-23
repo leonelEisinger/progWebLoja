@@ -10,7 +10,7 @@ create table cliente (
 	primary key(id)
 );
 
-select *
+select * 
 from cliente;
 
 insert into cliente(login, senha, nome, telefone, email, cartaoCredito) values ('krohn','123','Alexandre Krohn', '5554999999999', 'email@email.com', '1234567890654321');
@@ -63,8 +63,8 @@ create table produto (
 select *
 from produto;
 
-insert into produto(nome, descricao, foto) values ('Chave', 'Abre algo', '');
-insert into produto(nome, descricao, foto) values ('Roda', 'Apenas Gira', '');
+insert into produto(nome, descricao, foto) values ('chave', 'Abre algo', '');
+insert into produto(nome, descricao, foto) values ('roda', 'Apenas Gira', '');
 
 create table estoque (
 	id serial not null,

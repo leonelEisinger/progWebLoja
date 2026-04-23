@@ -9,19 +9,6 @@ class Usuario {
     private $email;
     private $cartaoCredito;
 
-
-    
-    /*
-    public function __construct() { }
-    
-    public function __construct($login, $senha, $nome)
-    {
-        $this->login=$login;
-        $this->senha=$senha;
-        $this->nome=$nome;
-    }
-    */
-
     public function __construct( $id, $login, $senha, $nome, $telefone, $email, $cartaoCredito)
     {
         $this->id=$id;

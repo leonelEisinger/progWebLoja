@@ -18,102 +18,66 @@ include_once("layout_header.php");
 
 <body>
 
-<h1>Lista de veiculos</h1>
+	<h1>Lista de veiculos</h1>
 
-<div class="input-group">
-	<input type="text" class="form-control" id="palavra" name="palavra" placeholder="Buscar por...">
-	<span class="input-group-btn">
-		<button class="btn btn-default" id="buscar" type="button">Buscar</button>
-	</span>
-</div>
+	<div class="container">
+            <h1>AJAX COM PHP sem JQuery</h1>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="input-group">
+                            <input type="text" class="form-control mx-2" id="palavra" name="palavra" placeholder="Buscar por...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-info" id="buscar" type="button">Buscar</button>
+								<a class="btn btn-warning" href="editaProduto.php">Novo</a>
+                            </span>
+                    </div>
+                </div>
+            </div>
+            <div id="dados">Aqui será inserindo o resultado da consulta...</div>
+        </div>
+        
+        <script>
+            function buscar(palavra)
+            {
+                var dados = document.getElementById('dados');
 
-<script>
-	function buscar(palavra)
-	{
-		var dados = document.getElementById('dados');
+                const parametros = {
+                    "palavra": palavra,
+                }
 
-		const parametros = {
-			"palavra": palavra,
-		}
+                const config = {
+                     method: "POST",
+                     headers: {"Content-type": "application/json; charset=UTF-8"},
+                     body: JSON.stringify(parametros)
+                }
+                
+                const retorno = fetch('busca_ajax.php', config)
+                    .then(resposta => resposta.text())
+                    .then(tabela => {dados.innerHTML = tabela;});    
+                
+            }
+            
+            const botaoBuscar = document.getElementById('buscar');
+            
+            botaoBuscar.addEventListener("click", function(event) { 
+                var palavra =  document.getElementById('palavra');
+                buscar(palavra.value);
+            });
 
-		const config = {
-				method: "POST",
-				headers: {"Content-type": "application/json; charset=UTF-8"},
-				body: JSON.stringify(parametros)
-		}
-		
-		const retorno = fetch('busca_ajax.php', config)
-			.then(resposta => resposta.text())
-			.then(tabela => {dados.innerHTML = tabela;});    
-		
-	}
-	
-	const botaoBuscar = document.getElementById('buscar');
-	
-	botaoBuscar.addEventListener("click", function(event) { 
-		var palavra =  document.getElementById('palavra');
-		buscar(palavra.value);
-	});
+            const inputPalavra = document.getElementById('palavra');
+            
+            inputPalavra.addEventListener("input", function(event) { 
+                buscar(event.target.value);
+            });
 
-	const inputPalavra = document.getElementById('palavra');
-	
-	inputPalavra.addEventListener("input", function(event) { 
-		buscar(event.target.value);
-	});
-
-</script>
+        </script>
 
 <?php
-
-echo "<section>";
-
-// procura veiculos
 
 $dao = $factory->getProdutoDao();
 $produtos = $dao->buscaTodos();
 
-
-// mostra os usuários, se tiver
-if($produtos) {
- 
-	echo "<table class='table table-hover table-borderless align-middle'>";
-	echo "<thead'>";
-	echo "<tr>";
-		echo "<th>Id</th>";
-		echo "<th>Nome</th>";
-		echo "<th>Descrição</th>";
-		echo "<th>Foto</th>";
-	echo "</tr>";
-	echo "</thead'>";
-
-	foreach ($produtos as $umProdutos) {
-	
-		echo "<tr>";
-			echo "<td>";
-			// link para editar um usuário
-	   		echo "<a class='btn btn-success' href='editaProduto.php?id={$umProdutos->getId()}'>{$umProdutos->getId()}</a>";
-	   		echo "</td>";
-			echo "<td>{$umProdutos->getNome()}</td>";
-			echo "<td>{$umProdutos->getDescricao()}</td>";
-			echo "<td>{$umProdutos->getFoto()}</td>";
-			echo "<td>";
- 			// link para excluir um usuário
-			echo "<a class='btn btn-danger' href='excluiProduto.php?id={$umProdutos->getId()}' onclick=\"return confirm('Quer mesmo excluir?');\">X</a>";
-			echo "</td>";
- 
-		echo "</tr>";
-		
-	}
-	echo "</table>";
-} else {
-	echo "<p>Não foram encontrados registros";
-}
- 
-echo "</section>";
-
-
 ?>
-<a class="btn btn-warning" href="editaProduto.php">Novo</a>
 <section>
 <h1>Informações do banco de dados:</h1>
 Driver : <?=$dao->getDriver()?><br>

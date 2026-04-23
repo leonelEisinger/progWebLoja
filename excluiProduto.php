@@ -4,9 +4,9 @@ include_once "fachada.php";
 
 $id = @$_GET["id"];
 
-$dao = $factory->getVeiculoDao();
+$dao = $factory->getProdutoDao();
 
-$veiculo = new Produto($id, null, null, null, null);
+$veiculo = new Produto($id, null, null, null,);
 
 $dao->remove($veiculo);
 
