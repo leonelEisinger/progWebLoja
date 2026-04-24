@@ -18,8 +18,6 @@ include_once("layout_header.php");
 
 <body>
 
-	<h1>Lista de veiculos</h1>
-
 	<div class="container">
             <h1>AJAX COM PHP sem JQuery</h1>
             <div class="row">

@@ -59,11 +59,11 @@ if($usuario==null) {
                     <input class="form-control border border-dark" type="tel" placeholder="5554999552222" value="<?=$usuario->getTelefone()?>" name="telefone"/>
                     <br>
                 </div>
-                <!--<div class="mb-3 w-25 mx-auto">
+                <div class="mb-3 w-25 mx-auto">
                     <label class="form-label" for="cartaoCredito">Numero do cartão de credito:</label>
                     <input class="form-control border border-dark" type="text" placeholder="1234567890654321" value="<?=$usuario->getCartaoCredito()?>" name="cartaoCredito"/>
                     <br>
-                </div>-->
+                </div>
             </div>
 
             <div class="mb-3 mx-auto">

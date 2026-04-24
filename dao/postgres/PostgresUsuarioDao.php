@@ -19,7 +19,7 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
         $stmt->bindParam(":login", $usuario->getLogin());
         $stmt->bindParam(":senha", $usuario->getSenha());
         $stmt->bindParam(":nome", $usuario->getNome());
-        $stmt->bindParam(":telefone", $usuario->getTel());
+        $stmt->bindParam(":telefone", $usuario->getTelefone());
         $stmt->bindParam(":email", $usuario->getEmail());
         $stmt->bindParam(":cartaoCredito", $usuario->getCartaoCredito());
 
