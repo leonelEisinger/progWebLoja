@@ -14,38 +14,48 @@ if ( is_session_started() === FALSE ) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/layout.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <title>Vizualizador</title>
 </head>
 <body>
-
     <header>
-        <nav class="bg-dark position-relative py-4">
-            <?php
-                if(isset($_SESSION["nome_usuario"])) {
-                    // Menu de navegação : só mostra se logado
-                    echo "<a class=\"btn btn-primary mx-1\" href=\"usuarios.php\">Usuarios</a>";
-                    echo "<a class=\"btn btn-primary mx-1\" href=\"produtos.php\">Produto</a>";
-                    echo "<a class=\"btn btn-primary mx-1\" href=\"marcas.php\">Marcas</a>";
-                }
-            ?>
-			<div class="position-absolute top-0 end-0" id="login_info">
-                <?php	
-                include_once("comum.php");
-                
-                if ( is_session_started() === FALSE ) {
-                    session_start();
-                }	
-                
-                if(isset($_SESSION["nome_usuario"])) {
-                    // Informações de login
-                    echo "<span class='w-100 text-white'>Você está logado como <strong class='text-info'>" . $_SESSION["nome_usuario"];		
-                    echo "</strong><a class='btn btn-danger my-4 mx-2' href='executa_logout.php'> Logout </a></span>";
-                } else {
-                    echo "<span><a class='btn btn-primary m-1' href='login.php'> Efetuar Login </a></span>";
-                }
-		        ?>	
+    <nav id="main-banner" class="py-3 shadow-sm">
+        <div class="container d-flex align-items-center justify-content-between">
+
+            <div class="fw-bold fs-4">
+                <a href="index.php" class="link-light link-underline link-underline-opacity-0">WebLoja</a>
             </div>
-        </nav>
-    </header>
+
+            <div class="input-group w-50">
+                <input type="text" class="form-control" id="palavra" placeholder="Buscar produtos...">
+                <button class="btn" id="buscar"><strong>Buscar</strong></button>
+            </div>
+
+            <div class="d-flex align-items-center">
+
+                <?php
+                    if(isset($_SESSION["nome_usuario"])) {
+                        echo "<a class='btn btn-outline-dark mx-1' id='btn-produto' href='index.php'><strong>Produtos</strong></a>";
+                        echo "<a class='btn btn-outline-dark mx-1' id='btn-usuario' href='usuarios.php'><strong>Usuários</strong></a>";
+                        echo "<a class='btn btn-outline-dark mx-1' id='btn-novoProduto' href='editaProduto.php'><strong>Novo</strong></a>";
+                    }
+                ?>
+
+                <div class="ms-3">
+                    <?php
+                    if(isset($_SESSION["nome_usuario"])) {
+                        echo "<span class='me-2'>Olá, <strong>" . $_SESSION["nome_usuario"] . "</strong></span>";
+                        echo "<a class='btn btn-danger btn-sm' href='executa_logout.php'>Sair</a>";
+                    } else {
+                        echo "<a class='btn btn-dark' href='login.php'>Entrar</a>";
+                    }
+                    ?>
+                </div>
+
+            </div>
+
+        </div>
+    </nav>
+</header>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>

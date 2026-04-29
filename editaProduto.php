@@ -19,14 +19,13 @@ if($produto==null) {
 		<title>Cadastro de produtos</title>
 	</head>
 	<body>
-        
-        <a class="btn btn-outline-danger m-2" href="produtos.php">Voltar</a>
+        <a class="btn btn-outline-danger m-2" href="index.php">Voltar</a>
 		<h1 class="mx-auto w-25 text-align-center">Cadastro de produtos</h1>
 
-        <form class="mx-auto w-25 text-align-center border px-2" action="salvaproduto.php" method=post>
+        <form class="mx-auto w-25 text-align-center border px-2" action="salvaProduto.php" enctype="multipart/form-data" method=post>
             <div class="mb-3">
                 <label class="form-label" for="id">Id:</label>
-                <input class="form-control border border-dark" type= "text" value="<?=$produto->getId()?>" name="id"/>
+                <input type="number" class="form-control border border-dark" value="<?=$produto->getId()?>" name="id"/>
                 <br>
             </div>
             <div class="mb-3">
@@ -41,7 +40,8 @@ if($produto==null) {
             </div>
             <div class="mb-3">
                 <label class="form-label" for="foto">Foto:</label>
-                <input class="form-control border border-dark" type= "text" value="<?=$produto->getFoto()?>" name="foto"/>
+                
+                <input class="form-control border border-dark" type="file" name="foto" />
                 <br>
             </div>
             <div class="mb-3 w-25 mx-auto">

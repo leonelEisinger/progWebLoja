@@ -2,6 +2,9 @@
 include_once "fachada.php";
 include_once("layout_header.php");
 
+if ( is_session_started() === FALSE ) {
+			session_start();
+		}
 
 ?>
 
@@ -18,9 +21,24 @@ include_once("layout_header.php");
 
 <body>
 
+<?php 
+	if(!isset($_SESSION["nome_usuario"])){
+		echo "<div class='position-absolute start-50 top-50 translate-middle text-center'>";
+		echo "<h1>Forbbiden Access! contact you system administrator</h1>";
+		echo "<h3>Acceso prohibido! Ponte en contacto con el administrador del sistema.</h3>";
+		echo "<h3>Acesso restrito! contate o administrador do seu sistema</h3>";
+		echo "</div>";
+		return false;
+	}
+?>
+
 <h1>Lista de usuários</h1>
 
 <?php
+
+
+
+
 
 echo "<section>";
 
@@ -38,6 +56,8 @@ if($usuarios) {
 		echo "<th>Id</th>";
 		echo "<th>Login</th>";
 		echo "<th>Nome</th>";
+		echo "<th>Telefone</th>";
+		echo "<th>Email</th>";
 		echo "<th>Excluir</th>";
 	echo "</tr>";
 	echo "</thead>";
@@ -69,8 +89,6 @@ if($usuarios) {
 }
  
 echo "</section>";
-
-
 ?>
 <a class="btn btn-warning" href="editaUsuario.php">Novo</a>
 <section>

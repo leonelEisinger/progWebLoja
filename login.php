@@ -16,6 +16,7 @@ include_once "layout_header.php";
         <input type="password" class="form-control" id="senha" name="senha" placeholder="Informe a senha">
         <button type="submit" class="btn btn-primary my-2">OK</button>
         <a type="submit" href="index.php" class="btn btn-outline-primary">Voltar</a>
+        <p>Não possui cadastro? <a href="editaUsuario.php">cadastre-se aqui</a></p>
     </div>
 </form>
 </section>

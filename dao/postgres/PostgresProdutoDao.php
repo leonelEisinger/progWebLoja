@@ -10,19 +10,18 @@ class PostgresProdutoDao extends DAO implements ProdutoDao {
     public function insere($produto) {
 
         $query = "INSERT INTO " . $this->table_name . 
-        " (id, nome, descricao, foto) VALUES" .
-        " (:id, :nome, :descricao, :foto)";
+        " ( nome, descricao, foto) VALUES" .
+        " ( :nome, :descricao, :foto)";
 
         $stmt = $this->conn->prepare($query);
 
         // bind values 
-        $stmt->bindParam(":id", $produto->getId());
         $stmt->bindParam(":nome", $produto->getNome());
         $stmt->bindParam(":descricao", $produto->getDescricao());
         $stmt->bindParam(":foto", $produto->getFoto());
 
         if($stmt->execute()){
-            return $this->conn->lastInsertId();;
+            return $this->conn->lastInsertId();
         }else{
             return -1;
         }
@@ -79,7 +78,6 @@ class PostgresProdutoDao extends DAO implements ProdutoDao {
         $stmt = $this->conn->prepare($query);
 
         // bind parameters
-        $stmt->bindParam(":id", $produto->getId());
         $stmt->bindParam(":nome", $produto->getNome());
         $stmt->bindParam(":descricao", $produto->getDescricao());
         $stmt->bindParam(":foto", $produto->getFoto());

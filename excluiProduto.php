@@ -6,10 +6,10 @@ $id = @$_GET["id"];
 
 $dao = $factory->getProdutoDao();
 
-$veiculo = new Produto($id, null, null, null,);
+$produto = new Produto($id, null, null, null,);
 
-$dao->remove($veiculo);
+$dao->remove($produto);
 
-header("Location: produtos.php");
+header("Location: index.php");
 
 ?>
