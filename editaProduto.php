@@ -5,6 +5,7 @@ $id = @$_GET["id"];
 
 $dao = $factory->getProdutoDao();
 $produto = $dao->buscaPorId($id);
+$foto = @$_POST["foto"];
 
 $produtos = $dao->buscaTodos();
 if($produto==null) {
@@ -41,7 +42,7 @@ if($produto==null) {
             <div class="mb-3">
                 <label class="form-label" for="foto">Foto:</label>
                 
-                <input class="form-control border border-dark" type="file" name="foto" />
+                <input class="form-control border border-dark" type="file" name="foto" value="<?=$produto->getFoto()?>"/>
                 <br>
             </div>
             <div class="mb-3 w-25 mx-auto">
