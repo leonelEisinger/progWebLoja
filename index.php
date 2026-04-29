@@ -1,5 +1,5 @@
 <?php
-include_once "fachada.php";
+include_once("fachada.php");
 include_once("layout_header.php");
 
 ?>
@@ -24,6 +24,7 @@ include_once("layout_header.php");
         <div id="dados" class="row mt-4"></div>
     </div>
         
+    
     <script>
        
         function buscar(palavra)

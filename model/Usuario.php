@@ -8,8 +8,9 @@ class Usuario {
     private $telefone;
     private $email;
     private $cartaoCredito;
+    private $tipo;
 
-    public function __construct( $id, $login, $senha, $nome, $telefone, $email, $cartaoCredito)
+    public function __construct( $id, $login, $senha, $nome, $telefone, $email, $cartaoCredito, $tipo)
     {
         $this->id=$id;
         $this->login=$login;
@@ -18,6 +19,7 @@ class Usuario {
         $this->telefone=$telefone;
         $this->email=$email;
         $this->cartaoCredito=$cartaoCredito;
+        $this->tipo=$tipo;
     }
 
     public function getId() { return $this->id; }
@@ -36,5 +38,7 @@ class Usuario {
     public function setEmail($email) {$this->email = $email;}
     public function getCartaoCredito() { return $this->cartaoCredito; }
     public function setCartaoCredito($cartaoCredito) {$this->cartaoCredito = $cartaoCredito;}
+    public function getTipo() { return $this->tipo; }
+    public function setTipo($tipo) {$this->tipo = $tipo;}
 }
 ?>

@@ -30,7 +30,7 @@ if($usuario) {
     { 
         // TUDO OK! Agora, passa os dados para a sessão e redireciona o usuário 
         $_SESSION["id_usuario"]= $usuario->getId(); 
-        $_SESSION["nome_usuario"] = stripslashes($usuario->getNome()); 
+        $_SESSION["nome_usuario"] = stripslashes($usuario->getLogin()); 
         //$_SESSION["permissao"]= $dados["postar"]; 
         header("Location: index.php"); 
         exit; 

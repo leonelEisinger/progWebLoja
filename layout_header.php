@@ -28,7 +28,7 @@ if ( is_session_started() === FALSE ) {
             </div>
 
             <div class="input-group w-50">
-                <input type="text" class="form-control" id="palavra" placeholder="Buscar produtos...">
+                <input type="text" class="form-control" id="palavra" placeholder="Buscar...">
                 <button class="btn" id="buscar"><strong>Buscar</strong></button>
             </div>
 
@@ -43,12 +43,12 @@ if ( is_session_started() === FALSE ) {
 
                 <div class="ms-3">
                     <?php
-                    if(isset($_SESSION["nome_usuario"])) {
-                        echo "<span class='me-2'>Olá, <strong>" . $_SESSION["nome_usuario"] . "</strong></span>";
-                        echo "<a class='btn btn-danger btn-sm' href='executa_logout.php'>Sair</a>";
-                    } else {
-                        echo "<a class='btn btn-dark' href='login.php'>Entrar</a>";
-                    }
+                        if(isset($_SESSION["nome_usuario"])) {
+                            echo "<span class='me-2'>Olá, <strong>" . $_SESSION["nome_usuario"] . "</strong></span>";
+                            echo "<a class='btn btn-danger btn-sm' href='executa_logout.php'>Sair</a>";
+                        } else {
+                            echo "<a class='btn btn-dark' href='login.php'>Entrar</a>";
+                        }
                     ?>
                 </div>
 

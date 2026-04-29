@@ -9,11 +9,12 @@ $login = @$_POST["login"];
 $telefone = @$_POST["telefone"];
 $email = @$_POST["email"];
 $cartaoCredito = @$_POST["cartaoCredito"];
+$tipo = @$_POST["tipo"];
 
 $dao = $factory->getUsuarioDao();
 $usuario = $dao->buscaPorId($id);
 if($usuario===null) {
-    $usuario = new Usuario($id, $login, $senha, $nome, $telefone, $email, $cartaoCredito);
+    $usuario = new Usuario($id, $login, $senha, $nome, $telefone, $email, $cartaoCredito, $tipo);
     $idInserido = $dao->insere($usuario);
     // se precisar o id novo...
 } else {
@@ -22,7 +23,8 @@ if($usuario===null) {
     $usuario->setLogin($login);
     $usuario->setTelefone($telefone);
     $usuario->setEmail($email);
-    $usuario->setCartaoCredito($email);
+    $usuario->setCartaoCredito($cartaoCredito);
+    $usuario->setTipo($tipo);
     $dao->altera($usuario);
 }
 

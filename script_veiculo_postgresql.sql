@@ -5,16 +5,17 @@ create table cliente (
 	nome varchar(255) not null,
 	telefone varchar(13) not null,
 	email varchar(100) not null,
-	cartaoCredito varchar(16) not null,
-
+	cartaoCredito varchar(16),
+	tipo int not null,
+	-- 0 comprador ,1 vendedor, 2 admin
 	primary key(id)
 );
 
 select * 
 from cliente;
 
-insert into cliente(login, senha, nome, telefone, email, cartaoCredito) values ('krohn','123','Alexandre Krohn', '5554999999999', 'email@email.com', '1234567890654321');
-insert into cliente(login, senha, nome, telefone, email, cartaoCredito) values ('teste','321','Teste da Silva', '5252988889999', 'testesilva@email.com', '1597532684159753');
+insert into cliente(login, senha, nome, telefone, email, cartaoCredito, tipo) values ('krohn','123','Alexandre Krohn', '5554999999999', 'email@email.com', '1234567890654321', 0);
+insert into cliente(login, senha, nome, telefone, email, cartaoCredito, tipo) values ('teste','321','Teste da Silva', '5252988889999', 'testesilva@email.com', '1597532684159753', 1);
 
 create table endereco (
 	id serial not null,
@@ -74,7 +75,7 @@ create table estoque (
 	
 	primary key(id),
 	foreign key (produto_id) references produto(id)
-)
+);
 
 select *
 from estoque;

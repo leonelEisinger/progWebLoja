@@ -10,8 +10,8 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
     public function insere($usuario) {
 
         $query = "INSERT INTO " . $this->table_name . 
-        " (login, senha, nome, telefone, email, cartaoCredito) VALUES" .
-        " (:login, :senha, :nome, :telefone, :email, :cartaoCredito)";
+        " (login, senha, nome, telefone, email, cartaoCredito, tipo) VALUES" .
+        " (:login, :senha, :nome, :telefone, :email, :cartaoCredito, :tipo)";
 
         $stmt = $this->conn->prepare($query);
 
@@ -22,6 +22,7 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
         $stmt->bindParam(":telefone", $usuario->getTelefone());
         $stmt->bindParam(":email", $usuario->getEmail());
         $stmt->bindParam(":cartaoCredito", $usuario->getCartaoCredito());
+        $stmt->bindParam(":tipo", $usuario->getTipo());
 
         if($stmt->execute()){
             return $this->conn->lastInsertId();;
@@ -51,7 +52,7 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
     public function altera($usuario) {
 
         $query = "UPDATE " . $this->table_name . 
-        " SET login = :login, senha = :senha, nome = :nome, telefone = :telefone, email = :email, cartaoCredito = :cartaoCredito" .
+        " SET login = :login, senha = :senha, nome = :nome, telefone = :telefone, email = :email, cartaoCredito = :cartaoCredito, tipo = :tipo" .
         " WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
@@ -63,6 +64,7 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
         $stmt->bindParam(":telefone", $usuario->getTel());
         $stmt->bindParam(":email", $usuario->getEmail());
         $stmt->bindParam(":cartaoCredito", $usuario->getCartaoCredito());
+        $stmt->bindParam(":tipo", $usuario->getTipo());
         $stmt->bindParam(':id', $usuario->getId());
 
         // execute the query
@@ -78,7 +80,7 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
         $usuario = null;
 
         $query = "SELECT
-                    id, login, senha, nome, telefone, email, cartaoCredito
+                    id, login, senha, nome, telefone, email, cartaoCredito, tipo
                 FROM
                     " . $this->table_name . "
                 WHERE
@@ -92,7 +94,7 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
      
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if($row) {
-            $usuario = new Usuario($row['id'],$row['login'], $row['senha'], $row['nome'], $row['telefone'], $row['email'], $row['cartaoCredito']);
+            $usuario = new Usuario($row['id'],$row['login'], $row['senha'], $row['nome'], $row['telefone'], $row['email'], $row['cartaoCredito'], $row['tipo']);
         } 
      
         return $usuario;
@@ -103,7 +105,7 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
         $usuario = null;
 
         $query = "SELECT
-                    id, login, senha, nome, telefone, email, cartaoCredito
+                    id, login, senha, nome, telefone, email, cartaoCredito, tipo
                 FROM
                     " . $this->table_name . "
                 WHERE
@@ -117,7 +119,31 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
      
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if($row) {
-            $usuario = new Usuario($row['id'],$row['login'], $row['senha'], $row['nome'], $row['telefone'], $row['email'], $row['cartaoCredito']);
+            $usuario = new Usuario($row['id'],$row['login'], $row['senha'], $row['nome'], $row['telefone'], $row['email'], $row['cartaoCredito'], $row['tipo']);
+        } 
+     
+        return $usuario;
+    }
+    public function buscaPorLogin($login) {
+
+        $usuario = null;
+
+        $query = "SELECT
+                    id, login, senha, nome, telefone, email, cartaoCredito, tipo
+                FROM
+                    " . $this->table_name . "
+                WHERE
+                    login = ?
+                LIMIT
+                    1 OFFSET 0";
+     
+        $stmt = $this->conn->prepare( $query );
+        $stmt->bindParam(1, $login);
+        $stmt->execute();
+     
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if($row) {
+            $usuario = new Usuario($row['id'],$row['login'], $row['senha'], $row['nome'], $row['telefone'], $row['email'], $row['cartaoCredito'], $row['tipo']);
         } 
      
         return $usuario;
@@ -126,7 +152,7 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
     public function buscaTodos() {
 
         $query = "SELECT
-                    id, login, senha, nome, telefone, email, cartaoCredito
+                    id, login, senha, nome, telefone, email, cartaoCredito, tipo
                 FROM
                     " . $this->table_name . 
                     " ORDER BY id ASC";
@@ -138,10 +164,34 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 
             extract($row);
-            $usuario = new Usuario($id,$login,$senha,$nome,$telefone,$email,$cartaoCredito); 
+            $usuario = new Usuario($id,$login,$senha,$nome,$telefone,$email,$cartaoCredito,$tipo); 
             $usuarios[] = $usuario;
         }
         return $usuarios;
     }
+
+    public function buscaPorNomeCom($palavra) {
+            
+        $usuarios = array();        
+        
+            $query = "SELECT
+                        id, login, senha, nome, telefone, email, cartaoCredito, tipo
+                    FROM
+                        " . $this->table_name . "
+                    WHERE
+                        nome like ? ORDER BY id ASC";
+        
+            $stmt = $this->conn->prepare($query);
+            $parametro = "%" . $palavra . "%";
+            $stmt->bindValue(1, $parametro);
+            $stmt->execute();
+        
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                extract($row);
+                $usuarios[] = new Usuario($id,$login,$senha,$nome,$telefone,$email,$cartaoCredito,$tipo);
+            }
+        
+            return $usuarios;
+        }
 }
 ?>

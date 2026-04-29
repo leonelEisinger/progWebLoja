@@ -27,6 +27,7 @@ if ( is_session_started() === FALSE ) {
                 <a href="index.php" class="link-light link-underline link-underline-opacity-0">WebLoja</a>
             </div>
 
+
             <div class="d-flex align-items-center">
 
                 <?php
@@ -38,12 +39,12 @@ if ( is_session_started() === FALSE ) {
 
                 <div class="ms-3">
                     <?php
-                    if(isset($_SESSION["nome_usuario"])) {
-                        echo "<span class='me-2'>Olá, <strong>" . $_SESSION["nome_usuario"] . "</strong></span>";
-                        echo "<a class='btn btn-danger btn-sm' href='executa_logout.php'>Sair</a>";
-                    } else {
-                        echo "<a class='btn btn-dark' href='login.php'>Entrar</a>";
-                    }
+                        if(isset($_SESSION["nome_usuario"])) {
+                            echo "<span class='me-2'>Olá, <strong>" . $_SESSION["nome_usuario"] . "</strong></span>";
+                            echo "<a class='btn btn-danger btn-sm' href='executa_logout.php'>Sair</a>";
+                        } else {
+                            echo "<a class='btn btn-dark' href='login.php'>Entrar</a>";
+                        }
                     ?>
                 </div>
 

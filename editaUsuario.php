@@ -3,13 +3,10 @@ include_once "fachada.php";
 
 $id = @$_GET["id"];
 
-	
-
-
 $dao = $factory->getUsuarioDao();
 $usuario = $dao->buscaPorId($id);
 if($usuario==null) {
-    $usuario = new Usuario(null,null,null,null,null,null,null);
+    $usuario = new Usuario(null,null,null,null,null,null,null,null);
 }
 ?>
 
@@ -21,7 +18,7 @@ if($usuario==null) {
 	</head>
 
     <body>
-        <a class="btn btn-outline-danger m-2" href="index.php">Voltar</a>
+        <a class="btn btn-outline-danger m-2" href="usuarios.php">Voltar</a>
 		<h1 class="mx-auto w-25 text-align-center">Cadastro de usuários</h1>
 
         <form class="mx-auto w-25 text-align-center border px-2" action="salvaUsuario.php" method=post>
@@ -57,9 +54,17 @@ if($usuario==null) {
             </div>
             <div class="mb-3">
                 <label class="form-label" for="cartaoCredito">Cartao de Credito:</label>
-                <input required class="form-control border border-dark" type= "text" value="<?=$usuario->getCartaoCredito()?>" name="cartaoCredito"/>
+                <input class="form-control border border-dark" type= "text" value="<?=$usuario->getCartaoCredito()?>" name="cartaoCredito"/>
                 <br>
             </div>
+            <!--<div class="mb-3 dropdown">
+                <label class="form-label" for="selectTipo">Tipo da conta</label>
+                <select class="form-select border border-dark" name="selectTipo">
+                    <option selected value="1">Vou apenas comprar</option>
+                    <option value="2">Vou apenas vender</option>
+                    <option value="3">Vou comprar e vender</option>
+                </select>
+            </div>-->
 
             <div class="mb-3 w-25 mx-auto">
                 <input class="btn border border-dark" type= "submit" value="Salvar"/>

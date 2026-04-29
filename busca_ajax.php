@@ -15,15 +15,21 @@ if($palavra == null) {
     $conteudo = file_get_contents('php://input');
     $valores = json_decode($conteudo, true);
     $palavra = $valores['palavra'];
-}
 
+    
+}
+        
+        
 $dao = $factory->getProdutoDao();
+
+
 
 if($palavra) {
     $produtos = $dao->buscaPorNomeCom($palavra);
-} else {
+} else{
     $produtos = $dao->buscaTodos();
 }
+
 
 foreach($produtos as $p) {
 ?>
@@ -54,7 +60,7 @@ foreach($produtos as $p) {
                         if(isset($_SESSION["nome_usuario"])) {
                             //echo "<button class='btn btn-primary w-100 my-2'> Adicionar ao carrinho </button>";
                             echo "<a href='editaProduto.php?id=" . $p->getId() . "'class='btn btn-warning mx-1'>Editar</a>";
-                            echo "<a href='excluiProduto.php?id=" . $p->getId() . "' class='btn btn-danger' onclick='" . "'return confirm('Quer mesmo excluir?');>Remover</a>";
+                            echo "<a href='excluiProduto.php?id=" . $p->getId() . "'class='btn btn-danger'" . "onclick='return confirm(\"Tem certeza que deseja excluir?\")'" . ">Remover</a>";
                         } else {
                             echo "<button class='btn btn-primary w-100'> Adicionar ao carrinho </button>";
                         }
