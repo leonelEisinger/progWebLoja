@@ -17,8 +17,10 @@ include_once("layout_header.php");
 </head>
 
 <body>
-
-	<div class="container">
+    
+    <div class="container">
+        <a class='btn mx-1 my-2 btn-lg' id='btn-novoProduto' href='editaProduto.php'><strong>Adicionar produto</strong></a>
+        <h2>Meus produtos:</h2>
         <div id="dados" class="row mt-4"></div>
     </div>
         

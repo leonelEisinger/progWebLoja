@@ -98,7 +98,7 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
         return $usuario;
     }
 
-    public function buscaPorLogin($login) {
+    public function buscaPorNome($nome) {
 
         $usuario = null;
 
@@ -107,12 +107,12 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
                 FROM
                     " . $this->table_name . "
                 WHERE
-                    login = ?
+                    nome = ?
                 LIMIT
                     1 OFFSET 0";
      
         $stmt = $this->conn->prepare( $query );
-        $stmt->bindParam(1, $login);
+        $stmt->bindParam(1, $nome);
         $stmt->execute();
      
         $row = $stmt->fetch(PDO::FETCH_ASSOC);

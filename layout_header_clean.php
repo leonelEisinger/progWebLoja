@@ -27,11 +27,6 @@ if ( is_session_started() === FALSE ) {
                 <a href="index.php" class="link-light link-underline link-underline-opacity-0">WebLoja</a>
             </div>
 
-            <div class="input-group w-50">
-                <input type="text" class="form-control" id="palavra" placeholder="Buscar produtos...">
-                <button class="btn" id="buscar"><strong>Buscar</strong></button>
-            </div>
-
             <div class="d-flex align-items-center">
 
                 <?php

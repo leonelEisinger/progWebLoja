@@ -1,6 +1,6 @@
 <?php
 include_once "fachada.php";
-include_once("layout_header.php");
+include_once("layout_header_clean.php");
 
 if ( is_session_started() === FALSE ) {
 			session_start();

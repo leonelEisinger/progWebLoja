@@ -42,7 +42,7 @@ if($produto==null) {
             <div class="mb-3">
                 <label class="form-label" for="foto">Foto:</label>
                 
-                <input class="form-control border border-dark" type="file" name="foto" value="<?=$produto->getFoto()?>"/>
+                <input class="form-control border border-dark" type="file" name="foto"/>
                 <br>
             </div>
             <div class="mb-3 w-25 mx-auto">
