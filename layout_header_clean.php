@@ -21,16 +21,12 @@ if ( is_session_started() === FALSE ) {
 <body>
     <header>
     <nav id="main-banner" class="py-3 shadow-sm">
-        <div class="d-flex align-items-center justify-content-between">
+        <div class="container d-flex align-items-center justify-content-between">
 
-            <div class="fw-bold fs-4 mx-2">
+            <div class="fw-bold fs-4">
                 <a href="index.php" class="link-light link-underline link-underline-opacity-0">WebLoja</a>
             </div>
 
-            <div class="input-group w-50">
-                <input type="text" class="form-control" id="palavra" placeholder="Buscar...">
-                <button class="btn" id="buscar"><strong>Buscar</strong></button>
-            </div>
 
             <div class="d-flex align-items-center">
 
@@ -40,10 +36,10 @@ if ( is_session_started() === FALSE ) {
                         echo "<a class='btn btn-outline-dark mx-1' id='btn-usuario' href='usuarios.php'><strong>Usuários</strong></a>";
                         echo "<a class='btn btn-outline-dark mx-1' id='btn-fornecedor' href='fornecedores.php' style='background-color: #FF7F11;'><strong>Fornecedores</strong></a>";
                         echo "<a class='btn btn-outline-dark mx-1' id='btn-estoque' href='estoque.php' style='background-color: #FF7F11;'><strong>Estoque</strong></a>";
-                    }
+                        }
                 ?>
 
-                <div class="ms-3 mx-2">
+                <div class="ms-3">
                     <?php
                         if(isset($_SESSION["nome_usuario"])) {
                             echo "<span class='me-2'>Olá, <strong>" . $_SESSION["nome_usuario"] . "</strong></span>";

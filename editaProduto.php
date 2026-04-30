@@ -5,11 +5,10 @@ $id = @$_GET["id"];
 
 $dao = $factory->getProdutoDao();
 $produto = $dao->buscaPorId($id);
-$foto = @$_POST["foto"];
 
 $produtos = $dao->buscaTodos();
 if($produto==null) {
-    $produto = new Produto(null, null, null, null);
+    $produto = new Produto(null, null, null, null, null, null, null);
     }
     ?>
 
@@ -20,16 +19,12 @@ if($produto==null) {
 		<title>Cadastro de produtos</title>
 	</head>
 	<body>
-
-
-        
-        <a class="btn btn-outline-danger m-2" href="produtos.php">Voltar</a>
+        <a class="btn btn-outline-danger m-2" href="index.php">Voltar</a>
 		<h1 class="mx-auto w-25 text-align-center">Cadastro de produtos</h1>
 
-        <form class="mx-auto w-25 text-align-center border px-2" enctype="multipart/form-data" action="salvaproduto.php" method=post>
+        <form class="mx-auto w-25 text-align-center border px-2" action="salvaProduto.php" enctype="multipart/form-data" method=post>
             <div class="mb-3">
-                <label class="form-label" for="id">Id:</label>
-                <input class="form-control border border-dark" type= "text" value="<?=$produto->getId()?>" name="id"/>
+                <input type="hidden" value="<?=$produto->getId()?>" name="id"/>
                 <br>
             </div>
             <div class="mb-3">
@@ -45,9 +40,19 @@ if($produto==null) {
             <div class="mb-3">
                 <label class="form-label" for="foto">Foto:</label>
                 
-                <input class="form-control border border-dark" type="file" name="foto" value="<?=$produto->getFoto()?>"/>
+                <input class="form-control border border-dark" type="file" name="foto"/>
                 <br>
             </div>
+            <select name="fornecedorId" class="form-select">
+                <?php
+                    $fornecedores = $factory->getFornecedorDao()->buscaTodos();
+
+                    foreach($fornecedores as $f) {
+                        $selected = ($produto->getFornecedorId() == $f->getId()) ? "selected" : "";
+                        echo "<option value='".$f->getId()."' $selected>".$f->getNome()."</option>";
+                    }
+                ?>
+            </select>
             <div class="mb-3 w-25 mx-auto">
                 <input class="btn border border-dark" type= "submit" value="Salvar"/>
             </div>

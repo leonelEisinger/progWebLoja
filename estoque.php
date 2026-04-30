@@ -9,7 +9,6 @@ if ( is_session_started() === FALSE ) {
 ?>
 
 
-
 <!DOCTYPE HTML>
 
 <html lang=pt-br>
@@ -18,19 +17,18 @@ if ( is_session_started() === FALSE ) {
 	<meta charset="UTF-8">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
-	<title>Lista de usuários</title>
+	<title>Estoque</title>
 </head>
 
 <body>
 
 <?php 
 
-	if($_SESSION["tipo"] != 2){
+	if($_SESSION["tipo"] !=2){
 		echo "<div class='position-absolute start-50 top-50 translate-middle text-center'>";
 		echo "<h1>Forbbiden Access! contact you system administrator</h1>";
 		echo "<h3>Acceso prohibido! Ponte en contacto con el administrador del sistema.</h3>";
 		echo "<h3>Acesso restrito! contate o administrador do seu sistema</h3>";
-        echo "<a class='btn btn-danger w-50' href='index.php'>Voltar</a>";
 		echo "</div>";
 		return false;
 	}
@@ -38,25 +36,24 @@ if ( is_session_started() === FALSE ) {
 
 
 	<div class="container">
-		<a class='btn mx-1 my-2 btn-lg' id='btn-novoUsuario' href='editaUsuario.php' style="background-color: #FF7F11;"><strong>Adicionar usuário</strong></a>
 		<div class="input-group w-50">
-			<input type="text" class="form-control" id="palavraUser" placeholder="Buscar...">
+			<input type="text" class="form-control" id="palavraEst" placeholder="Buscar...">
 			<button class="btn" id="buscarU" style="background-color: #FF7F11;"><strong>Buscar</strong></button>
 		</div>
-        <h2>Usuários:</h2>
-        <div id="dadosUser" class="row mt-4"></div>
+        <h2>Estoque:</h2>
+        <div id="dadosEst" class="row mt-4"></div>
     </div>
 
 	
 
 <script>
        
-        function buscarU(palavraUser)
+        function buscarU(palavraEst)
         {
-            var dados = document.getElementById('dadosUser');
+            var dados = document.getElementById('dadosEst');
 
             const parametros = {
-                "palavraUser": palavraUser,
+                "palavraEst": palavraEst,
             }
 
             const config = {
@@ -65,7 +62,7 @@ if ( is_session_started() === FALSE ) {
                     body: JSON.stringify(parametros)
             }
             
-            const retorno = fetch('busca_ajaxU.php', config)
+            const retorno = fetch('busca_ajaxE.php', config)
                 .then(resposta => resposta.text())
                 .then(tabela => {dados.innerHTML = tabela;});    
             
@@ -74,17 +71,17 @@ if ( is_session_started() === FALSE ) {
         const botaoBuscar = document.getElementById('buscarU');
         
         botaoBuscar.addEventListener("click", function(event) { 
-            var palavraUser =  document.getElementById('palavraUser');
-            buscarU(palavraUser.value);
+            var palavraEst =  document.getElementById('palavraEst');
+            buscarU(palavraEst.value);
         });
 
-        const inputPalavra = document.getElementById('palavraUser');
+        const inputPalavra = document.getElementById('palavraEst');
         
         inputPalavra.addEventListener("input", function(event) { 
             buscarU(event.target.value);
         });
             
-        buscarU(palavraUser.value);
+        buscarU(palavraEst.value);
 
     </script>
 

@@ -5,16 +5,18 @@ create table cliente (
 	nome varchar(255) not null,
 	telefone varchar(13) not null,
 	email varchar(100) not null,
-	cartaoCredito varchar(16) not null,
-
+	cartaoCredito varchar(16),
+	tipo int not null,
+	-- 0 comprador ,1 vendedor, 2 admin
 	primary key(id)
 );
 
 select * 
 from cliente;
 
-insert into cliente(login, senha, nome, telefone, email, cartaoCredito) values ('krohn','123','Alexandre Krohn', '5554999999999', 'email@email.com', '1234567890654321');
-insert into cliente(login, senha, nome, telefone, email, cartaoCredito) values ('teste','321','Teste da Silva', '5252988889999', 'testesilva@email.com', '1597532684159753');
+insert into cliente(login, senha, nome, telefone, email, cartaoCredito, tipo) values ('krohn','123','Alexandre Krohn', '5554999999999', 'email@email.com', '1234567890654321', 0);
+insert into cliente(login, senha, nome, telefone, email, cartaoCredito, tipo) values ('teste','321','Teste da Silva', '5252988889999', 'testesilva@email.com', '1597532684159753', 1);
+insert into cliente(login, senha, nome, telefone, email, cartaoCredito, tipo) values ('god','4321','Administrador', '0000000000000', '@god.com', '0000000000000000', 2);
 
 create table endereco (
 	id serial not null,
@@ -56,31 +58,39 @@ create table produto (
 	nome varchar(60) not null,
 	descricao varchar(255) not null,
 	foto varchar(255) not null,
+	fornecedorid int,
+
+	
 	
 	primary key(id)
 );
 
+ALTER TABLE produto
+ADD CONSTRAINT fk_produto_fornecedor
+FOREIGN KEY (fornecedorid)
+REFERENCES fornecedor(id);
+
 select *
 from produto;
 
-insert into produto(nome, descricao, foto) values ('chave', 'Abre algo', '');
-insert into produto(nome, descricao, foto) values ('roda', 'Apenas Gira', '');
+insert into produto(nome, descricao, foto, fornecedorid) values ('chave', 'Abre algo', 'chave.png', 1);
+insert into produto(nome, descricao, foto, fornecedorid) values ('roda', 'Apenas Gira', 'roda.png', 2);
 
 create table estoque (
 	id serial not null,
-	produto_id int not null,
+	produtoid int not null,
 	qtd int not null,
 	preco double precision not null,
 	
 	primary key(id),
-	foreign key (produto_id) references produto(id)
-)
+	foreign key (produtoid) references produto(id)
+);
 
 select *
 from estoque;
 
-insert into estoque(produto_id, qtd, preco) values (1, 3, 25.0);
-insert into estoque(produto_id, qtd, preco) values (2, 1, 150.0);
+insert into estoque(produtoid, qtd, preco) values (1, 3, 25.0);
+insert into estoque(produtoid, qtd, preco) values (2, 1, 150.0);
 
 create table pedido (
 	numero serial not null,
@@ -114,3 +124,23 @@ insert into itemPedido(pedido_id, produto_id, quantidade, preco) values(1,2,1, 1
 insert into itemPedido(pedido_id, produto_id, quantidade, preco) values(2,1,3, 100.0);
 
 
+
+
+
+
+
+
+select *
+from cliente;
+select *
+from endereco;
+select *
+from fornecedor;
+select *
+from produto;
+select *
+from estoque;
+select *
+from pedido;
+select *
+from itemPedido;

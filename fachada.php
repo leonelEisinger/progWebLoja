@@ -5,11 +5,14 @@ error_reporting(E_ERROR | E_PARSE);
 //Model
 include_once('model/Usuario.php');
 include_once('model/Produto.php');
-include_once('model/Marca.php');
+include_once('model/Fornecedor.php');
+include_once('model/Estoque.php');
 //DAO
 include_once('dao/UsuarioDao.php');
 include_once('dao/ProdutoDao.php');
-include_once('dao/MarcaDao.php');
+include_once('dao/FornecedorDao.php');
+include_once('dao/EstoqueDao.php');
+
 //Factory
 include_once('dao/DaoFactory.php');
 include_once('dao/postgres/PostgresDaoFactory.php');

@@ -10,8 +10,8 @@ class PostgresProdutoDao extends DAO implements ProdutoDao {
     public function insere($produto) {
 
         $query = "INSERT INTO " . $this->table_name . 
-        " ( nome, descricao, foto) VALUES" .
-        " ( :nome, :descricao, :foto)";
+        " ( nome, descricao, foto, fornecedorId) VALUES" .
+        " ( :nome, :descricao, :foto, :fornecedorId)";
 
         $stmt = $this->conn->prepare($query);
 
@@ -19,6 +19,7 @@ class PostgresProdutoDao extends DAO implements ProdutoDao {
         $stmt->bindParam(":nome", $produto->getNome());
         $stmt->bindParam(":descricao", $produto->getDescricao());
         $stmt->bindParam(":foto", $produto->getFoto());
+        $stmt->bindParam(":fornecedorId", $produto->getFornecedorId ());
 
         if($stmt->execute()){
             return $this->conn->lastInsertId();
@@ -33,7 +34,7 @@ class PostgresProdutoDao extends DAO implements ProdutoDao {
         $usuarios = array();        
         
             $query = "SELECT
-                        id, nome, descricao, foto
+                        id, nome, descricao, foto, fornecedorId
                     FROM
                         " . $this->table_name . "
                     WHERE
@@ -46,7 +47,7 @@ class PostgresProdutoDao extends DAO implements ProdutoDao {
         
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                 extract($row);
-                $usuarios[] = new Produto($id,$nome,$descricao,$foto);
+                $usuarios[] = new Produto($id,$nome,$descricao,$foto,$fornecedorId,$qtd,$preco);
             }
         
             return $usuarios;
@@ -72,15 +73,17 @@ class PostgresProdutoDao extends DAO implements ProdutoDao {
     public function altera($produto) {
 
         $query = "UPDATE " . $this->table_name . 
-        " SET nome = :nome, descricao = :descricao, foto = :foto" .
+        " SET nome = :nome, descricao = :descricao, foto = :foto, fornecedorId = :fornecedorId" .
         " WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
 
         // bind parameters
+        $stmt->bindParam(":id", $produto->getId());
         $stmt->bindParam(":nome", $produto->getNome());
         $stmt->bindParam(":descricao", $produto->getDescricao());
         $stmt->bindParam(":foto", $produto->getFoto());
+        $stmt->bindParam(":fornecedorId", $produto->getFornecedorId());
 
 
         // execute the query
@@ -96,7 +99,7 @@ class PostgresProdutoDao extends DAO implements ProdutoDao {
         $produto = null;
 
         $query = "SELECT
-                    id, nome, descricao, foto
+                    id, nome, descricao, foto, fornecedorId
                 FROM
                     " . $this->table_name . "
                 WHERE
@@ -110,7 +113,7 @@ class PostgresProdutoDao extends DAO implements ProdutoDao {
      
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if($row) {
-            $produto = new Produto($row['id'], $row['nome'], $row['descricao'], $row['foto']);
+            $produto = new Produto($row['id'], $row['nome'], $row['descricao'], $row['foto'], $row['fornecedorId'], $row['qtd'], $row['preco']);
         } 
      
         return $produto;
@@ -121,7 +124,7 @@ class PostgresProdutoDao extends DAO implements ProdutoDao {
         $produto = null;
 
         $query = "SELECT
-                     id, nome, descricao, foto
+                     id, nome, descricao, foto, fornecedorId
                 FROM
                     " . $this->table_name . "
                 WHERE
@@ -135,7 +138,7 @@ class PostgresProdutoDao extends DAO implements ProdutoDao {
      
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if($row) {
-            $produto = new Produto($row['id'], $row['nome'], $row['descricao'], $row['foto']);
+            $produto = new Produto($row['id'], $row['nome'], $row['descricao'], $row['foto'], $row['fornecedorId'], $row['qtd'], $row['preco']);
         } 
      
         return $produto;
@@ -145,7 +148,7 @@ class PostgresProdutoDao extends DAO implements ProdutoDao {
         $produto = null;
 
         $query = "SELECT
-                    id, nome, descricao, foto
+                    id, nome, descricao, foto, fornecedorId
                 FROM
                     " . $this->table_name . "
                 WHERE
@@ -159,7 +162,7 @@ class PostgresProdutoDao extends DAO implements ProdutoDao {
      
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if($row) {
-            $produto = new Produto($row['id'], $row['nome'], $row['descricao'], $row['foto']);
+            $produto = new Produto($row['id'], $row['nome'], $row['descricao'], $row['foto'], $row['fornecedorId'], $row['qtd'], $row['preco']);
         } 
      
         return $produto;
@@ -168,21 +171,44 @@ class PostgresProdutoDao extends DAO implements ProdutoDao {
     public function buscaTodos() {
 
         $query = "SELECT
-                    id, nome, descricao, foto
-                FROM
-                    " . $this->table_name . 
-                    " ORDER BY id ASC";
-     
-        $stmt = $this->conn->prepare( $query );
+            p.id,
+            p.nome,
+            p.descricao,
+            p.foto,
+            p.fornecedorId,
+            f.nome AS fornecedor_nome,
+            e.qtd,
+            e.preco
+          FROM produto p
+          LEFT JOIN fornecedor f ON p.fornecedorId = f.id
+          LEFT JOIN estoque e ON e.produtoid = p.id
+          ORDER BY p.id ASC";
+ 
+        $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
         $produtos = [];
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 
-            extract($row);
-            $produto = new Produto($id,$nome,$descricao,$foto); 
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            $produto = new Produto(
+                $row["id"],
+                $row["nome"],
+                $row["descricao"],
+                $row["foto"],
+                $row["fornecedorId"],
+                $row["qtd"],
+                $row["preco"]
+            );
+
+            $produto->setFornecedorNome($row["fornecedor_nome"] ?? null);
+
+            $produto->setQtd($row["qtd"] ?? 0);
+            $produto->setPreco($row["preco"] ?? 0);
+
             $produtos[] = $produto;
         }
+
         return $produtos;
     }
 }

@@ -1,28 +1,25 @@
 <?php
 
-include_once('UsuarioDao.php');
+include_once('FornecedorDao.php');
 include_once('dao/DAO.php');
 
-class PostgresUsuarioDao extends DAO implements UsuarioDao {
+class PostgresFornecedorDao extends DAO implements FornecedorDao {
 
-    private $table_name = 'cliente';
+    private $table_name = 'fornecedor';
     
-    public function insere($usuario) {
+    public function insere($fornecedor) {
 
         $query = "INSERT INTO " . $this->table_name . 
-        " (login, senha, nome, telefone, email, cartaoCredito, tipo) VALUES" .
-        " (:login, :senha, :nome, :telefone, :email, :cartaoCredito, :tipo)";
+        " (nome, descricao, telefone, email) VALUES" .
+        " (:nome, :descricao, :telefone, :email)";
 
         $stmt = $this->conn->prepare($query);
 
         // bind values 
-        $stmt->bindParam(":login", $usuario->getLogin());
-        $stmt->bindParam(":senha", $usuario->getSenha());
-        $stmt->bindParam(":nome", $usuario->getNome());
-        $stmt->bindParam(":telefone", $usuario->getTelefone());
-        $stmt->bindParam(":email", $usuario->getEmail());
-        $stmt->bindParam(":cartaoCredito", $usuario->getCartaoCredito());
-        $stmt->bindParam(":tipo", $usuario->getTipo());
+        $stmt->bindParam(":nome", $fornecedor->getNome());
+        $stmt->bindParam(":descricao", $fornecedor->getDescricao());
+        $stmt->bindParam(":telefone", $fornecedor->getTelefone());
+        $stmt->bindParam(":email", $fornecedor->getEmail());
 
         if($stmt->execute()){
             return $this->conn->lastInsertId();;
@@ -32,14 +29,14 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
 
     }
 
-    public function remove($usuario) {
+    public function remove($fornecedor) {
         $query = "DELETE FROM " . $this->table_name . 
         " WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
 
         // bind parameters
-        $stmt->bindParam(':id', $usuario->getId());
+        $stmt->bindParam(':id', $fornecedor->getId());
 
         // execute the query
         if($stmt->execute()){
@@ -49,23 +46,19 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
         return false;
     }
 
-    public function altera($usuario) {
+    public function altera($fornecedor) {
 
         $query = "UPDATE " . $this->table_name . 
-        " SET login = :login, senha = :senha, nome = :nome, telefone = :telefone, email = :email, cartaoCredito = :cartaoCredito, tipo = :tipo" .
+        " SET nome = :nome, descricao = :descricao, telefone = :telefone, email = :email" .
         " WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
 
         // bind parameters
-        $stmt->bindParam(":login", $usuario->getLogin());
-        $stmt->bindParam(":senha", $usuario->getSenha());
-        $stmt->bindParam(":nome", $usuario->getNome());
-        $stmt->bindParam(":telefone", $usuario->getTel());
-        $stmt->bindParam(":email", $usuario->getEmail());
-        $stmt->bindParam(":cartaoCredito", $usuario->getCartaoCredito());
-        $stmt->bindParam(":tipo", $usuario->getTipo());
-        $stmt->bindParam(':id', $usuario->getId());
+        $stmt->bindParam(":nome", $fornecedor->getNome());
+        $stmt->bindParam(":descricao", $fornecedor->getDescricao());
+        $stmt->bindParam(":telefone", $fornecedor->getTelefone());
+        $stmt->bindParam(":email", $fornecedor->getEmail());
 
         // execute the query
         if($stmt->execute()){
@@ -77,10 +70,10 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
 
     public function buscaPorId($id) {
         
-        $usuario = null;
+        $fornecedor = null;
 
         $query = "SELECT
-                    id, login, senha, nome, telefone, email, cartaoCredito, tipo
+                    id, nome, descricao, telefone, email
                 FROM
                     " . $this->table_name . "
                 WHERE
@@ -94,18 +87,18 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
      
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if($row) {
-            $usuario = new Usuario($row['id'],$row['login'], $row['senha'], $row['nome'], $row['telefone'], $row['email'], $row['cartaoCredito'], $row['tipo']);
+            $fornecedor = new Fornecedor($row['id'], $row['nome'], $row['descricao'], $row['telefone'], $row['email']);
         } 
      
-        return $usuario;
+        return $fornecedor;
     }
 
     public function buscaPorNome($nome) {
 
-        $usuario = null;
+        $fornecedor = null;
 
         $query = "SELECT
-                    id, login, senha, nome, telefone, email, cartaoCredito, tipo
+                    id, nome, descricao, telefone, email
                 FROM
                     " . $this->table_name . "
                 WHERE
@@ -119,40 +112,41 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
      
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if($row) {
-            $usuario = new Usuario($row['id'],$row['login'], $row['senha'], $row['nome'], $row['telefone'], $row['email'], $row['cartaoCredito'], $row['tipo']);
+            $fornecedor = new Fornecedor($row['id'], $row['nome'], $row['descricao'], $row['telefone'], $row['email']);
         } 
      
-        return $usuario;
+        return $fornecedor;
     }
-    public function buscaPorLogin($login) {
 
-        $usuario = null;
+        public function buscaPorDescricao($descricao) {
+
+        $fornecedor = null;
 
         $query = "SELECT
-                    id, login, senha, nome, telefone, email, cartaoCredito, tipo
+                    id, nome, descricao, telefone, email
                 FROM
                     " . $this->table_name . "
                 WHERE
-                    login = ?
+                    descricao = ?
                 LIMIT
                     1 OFFSET 0";
      
         $stmt = $this->conn->prepare( $query );
-        $stmt->bindParam(1, $login);
+        $stmt->bindParam(1, $descricao);
         $stmt->execute();
      
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if($row) {
-            $usuario = new Usuario($row['id'],$row['login'], $row['senha'], $row['nome'], $row['telefone'], $row['email'], $row['cartaoCredito'], $row['tipo']);
+            $fornecedor = new Fornecedor($row['id'], $row['nome'], $row['descricao'], $row['telefone'], $row['email']);
         } 
      
-        return $usuario;
+        return $fornecedor;
     }
 
     public function buscaTodos() {
 
         $query = "SELECT
-                    id, login, senha, nome, telefone, email, cartaoCredito, tipo
+                    id, nome, descricao, telefone, email
                 FROM
                     " . $this->table_name . 
                     " ORDER BY id ASC";
@@ -160,22 +154,22 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
         $stmt = $this->conn->prepare( $query );
         $stmt->execute();
 
-        $usuarios = [];
+        $fornecedores = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 
             extract($row);
-            $usuario = new Usuario($id,$login,$senha,$nome,$telefone,$email,$cartaoCredito,$tipo); 
-            $usuarios[] = $usuario;
+            $fornecedor = new Fornecedor($id,$nome,$descricao,$telefone,$email); 
+            $fornecedores[] = $fornecedor;
         }
-        return $usuarios;
+        return $fornecedores;
     }
 
     public function buscaPorNomeCom($palavra) {
             
-        $usuarios = array();        
+        $fornecedores = array();        
         
             $query = "SELECT
-                        id, login, senha, nome, telefone, email, cartaoCredito, tipo
+                        id, nome, descricao, telefone, email
                     FROM
                         " . $this->table_name . "
                     WHERE
@@ -188,10 +182,10 @@ class PostgresUsuarioDao extends DAO implements UsuarioDao {
         
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                 extract($row);
-                $usuarios[] = new Usuario($id,$login,$senha,$nome,$telefone,$email,$cartaoCredito,$tipo);
+                $fornecedores[] = new Fornecedor($id,$nome,$descricao,$telefone,$email);
             }
         
-            return $usuarios;
+            return $fornecedores;
         }
 }
 ?>
