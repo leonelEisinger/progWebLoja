@@ -43,21 +43,23 @@ foreach($produtos as $p) {
             <div class="card-body">
 
                 <!-- NOME -->
-                <h6 class="card-title"><?=$p->getNome()?></h6>
+                <h6 class="text-dark card-title"><?=$p->getNome()?></h6>
 
                 <!-- PREÇO -->
-                <p class="text-success fw-bold fs-5">
-                    R$ 23
-                </p>
+                <p class="text-dark-subtle fw-bold fs-5"><?=$p->getDescricao()?></p>
 
-                <!-- EXTRA -->
-                <span class="badge bg-success mb-2">Frete grátis</span>
-
-                <!-- BOTÃO -->
-                <nav class="mx-auto my-auto text-center">
+                <?php
+                   
+                    echo "<div class='text-center'>";
+                        echo "<span class='badge bg-dark mb-2 m-1'>". $p->getFornecedorNome() ."</span>";
+                        echo "<span class='badge bg-success mb-2'>". $p->getFornecedorNome() ."</span>";
+                        echo "<span class='badge bg-info mb-2 m-1'>". $p->getFornecedorNome() ."</span>";
+                    echo "</div>";
                     
-                    <?php
-                        if(isset($_SESSION["nome_usuario"])) {
+                    echo "<nav class='mx-auto my-auto text-center'>";
+                    
+                    
+                        if($_SESSION["tipo"] == 1 || $_SESSION["tipo"] == 2) {
                             //echo "<button class='btn btn-primary w-100 my-2'> Adicionar ao carrinho </button>";
                             echo "<a href='editaProduto.php?id=" . $p->getId() . "'class='btn btn-warning mx-1'>Editar</a>";
                             echo "<a href='excluiProduto.php?id=" . $p->getId() . "'class='btn btn-danger'" . "onclick='return confirm(\"Tem certeza que deseja excluir?\")'" . ">Remover</a>";
@@ -69,7 +71,6 @@ foreach($produtos as $p) {
                     
                     
                 </nav>
-
             </div>
         </div>
     </div>

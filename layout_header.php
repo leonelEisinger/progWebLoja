@@ -38,6 +38,7 @@ if ( is_session_started() === FALSE ) {
                     if(isset($_SESSION["nome_usuario"])) {
                         echo "<a class='btn btn-outline-dark mx-1' id='btn-produto' href='index.php'><strong>Produtos</strong></a>";
                         echo "<a class='btn btn-outline-dark mx-1' id='btn-usuario' href='usuarios.php'><strong>Usuários</strong></a>";
+                        echo "<a class='btn btn-outline-dark mx-1' id='btn-fornecedor' href='fornecedores.php' style='background-color: #FF7F11;'><strong>Fornecedores</strong></a>";
                     }
                 ?>
 

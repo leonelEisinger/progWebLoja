@@ -2,7 +2,7 @@
 
 include_once "fachada.php";
 
-$id = @$_POST["id"];
+$id = @$_POST["id"] ?? null;
 $nome = @$_POST["nome"];
 $senha = @$_POST["senha"];
 $login = @$_POST["login"];
@@ -12,7 +12,9 @@ $cartaoCredito = @$_POST["cartaoCredito"];
 $tipo = @$_POST["tipo"];
 
 $dao = $factory->getUsuarioDao();
-$usuario = $dao->buscaPorId($id);
+if (!empty($id)) {
+    $usuario = $dao->buscaPorId($id);
+}
 if($usuario===null) {
     $usuario = new Usuario($id, $login, $senha, $nome, $telefone, $email, $cartaoCredito, $tipo);
     $idInserido = $dao->insere($usuario);

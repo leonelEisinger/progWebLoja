@@ -16,6 +16,7 @@ from cliente;
 
 insert into cliente(login, senha, nome, telefone, email, cartaoCredito, tipo) values ('krohn','123','Alexandre Krohn', '5554999999999', 'email@email.com', '1234567890654321', 0);
 insert into cliente(login, senha, nome, telefone, email, cartaoCredito, tipo) values ('teste','321','Teste da Silva', '5252988889999', 'testesilva@email.com', '1597532684159753', 1);
+insert into cliente(login, senha, nome, telefone, email, cartaoCredito, tipo) values ('god','4321','Administrador', '0000000000000', '@god.com', '0000000000000000', 2);
 
 create table endereco (
 	id serial not null,
@@ -57,19 +58,27 @@ create table produto (
 	nome varchar(60) not null,
 	descricao varchar(255) not null,
 	foto varchar(255) not null,
+	fornecedorid int,
+
+	
 	
 	primary key(id)
 );
 
+ALTER TABLE produto
+ADD CONSTRAINT fk_produto_fornecedor
+FOREIGN KEY (fornecedor_id)
+REFERENCES fornecedor(id);
+
 select *
 from produto;
 
-insert into produto(nome, descricao, foto) values ('chave', 'Abre algo', '');
-insert into produto(nome, descricao, foto) values ('roda', 'Apenas Gira', '');
+insert into produto(nome, descricao, foto) values ('chave', 'Abre algo', '69ee5ce2a78d3_Animatronic.png', 1);
+insert into produto(nome, descricao, foto) values ('roda', 'Apenas Gira', '69f2901021c45_Nightmare.png', 2);
 
 create table estoque (
 	id serial not null,
-	produto_id int not null,
+	produtoid int not null,
 	qtd int not null,
 	preco double precision not null,
 	

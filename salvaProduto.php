@@ -28,10 +28,11 @@ if (isset($_FILES["foto"]) && $_FILES["foto"]["name"] != "") {
 }
 
 $dao = $factory->getProdutoDao();
-$produto = $dao->buscaPorId($id);
-
+if (!empty($id)) {
+    $produto = $dao->buscaPorId($id);
+}
 if($produto===null) {
-    $produto = new Produto($id, $nome, $descricao, $foto);
+    $produto = new Produto($id, $nome, $descricao, $foto, $fornecedorId);
     $dao->insere($produto);
 } else {
     $produto->setNome($nome);

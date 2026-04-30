@@ -1,23 +1,24 @@
 <?php
 
-include_once('MarcaDao.php');
+include_once('EstoqueDao.php');
 include_once('dao/DAO.php');
 
-class PostgresMarcaDao extends DAO implements MarcaDao {
+class PostgresEstoqueDao extends DAO implements EstoqueDao {
 
-    private $table_name = 'marca';
+    private $table_name = 'estoque';
     
-    public function insere($marca) {
+    public function insere($estoque) {
 
         $query = "INSERT INTO " . $this->table_name . 
-        " (nome, descricao) VALUES" .
-        " (:nome, :descricao)";
+        " (produtoid, qtd, preco) VALUES" .
+        " (:produtoid, :qtd, :preco)";
 
         $stmt = $this->conn->prepare($query);
 
         // bind values 
-        $stmt->bindParam(":descricao", $marca->getNome());
-        $stmt->bindParam(":nome", $marca->getDescricao());
+        $stmt->bindParam(":produtoid", $estoque->getProdutoid());
+        $stmt->bindParam(":qtd", $estoque->getQtd());
+        $stmt->bindParam(":preco", $estoque->getPreco());
 
         if($stmt->execute()){
             return $this->conn->lastInsertId();;
@@ -27,14 +28,14 @@ class PostgresMarcaDao extends DAO implements MarcaDao {
 
     }
 
-    public function remove($marca) {
+    public function remove($estoque) {
         $query = "DELETE FROM " . $this->table_name . 
         " WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
 
         // bind parameters
-        $stmt->bindParam(':id', $marca->getId());
+        $stmt->bindParam(':id', $estoque->getId());
 
         // execute the query
         if($stmt->execute()){
@@ -44,18 +45,18 @@ class PostgresMarcaDao extends DAO implements MarcaDao {
         return false;
     }
 
-    public function altera($marca) {
+    public function altera($estoque) {
 
         $query = "UPDATE " . $this->table_name . 
-        " SET nome = :nome, descricao = :descricao" .
+        " SET produtoid = :produtoid, qtd = :qtd, preco = :preco" .
         " WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
 
         // bind parameters
-        $stmt->bindParam(':id', $marca->getId());
-        $stmt->bindParam(":nome", $marca->getNome());
-        $stmt->bindParam(":descricao", $marca->getDescricao());
+        $stmt->bindParam(":produtoid", $estoque->getProdutoid());
+        $stmt->bindParam(":qtd", $estoque->getQtd());
+        $stmt->bindParam(":preco", $estoque->getPreco());
 
         // execute the query
         if($stmt->execute()){
@@ -67,10 +68,10 @@ class PostgresMarcaDao extends DAO implements MarcaDao {
 
     public function buscaPorId($id) {
         
-        $marca = null;
+        $estoque = null;
 
         $query = "SELECT
-                    id, nome, descricao
+                    id, produtoid, qtd, preco
                 FROM
                     " . $this->table_name . "
                 WHERE
@@ -84,18 +85,18 @@ class PostgresMarcaDao extends DAO implements MarcaDao {
      
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if($row) {
-            $marca = new Marca($row['id'], $row['nome'], $row['descricao']);
+            $estoque = new estoque($row['id'], $row['produtoid'], $row['qtd'], $row['preco']);
         } 
      
-        return $marca;
+        return $estoque;
     }
 
-    public function buscaPorNome($nome) {
+    public function buscaPorQtd($qtd) {
 
-        $marca = null;
+        $estoque = null;
 
         $query = "SELECT
-                    id, nome, descricao
+                    id, produtoid, qtd, preco
                 FROM
                     " . $this->table_name . "
                 WHERE
@@ -104,46 +105,46 @@ class PostgresMarcaDao extends DAO implements MarcaDao {
                     1 OFFSET 0";
      
         $stmt = $this->conn->prepare( $query );
-        $stmt->bindParam(1, $nome);
+        $stmt->bindParam(1, $qtd);
         $stmt->execute();
      
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if($row) {
-            $marca = new Marca($row['id'], $row['nome'], $row['descricao']);
+            $estoque = new estoque($row['id'], $row['produtoid'], $row['qtd'], $row['preco']);
         } 
      
-        return $marca;
+        return $estoque;
     }
 
-        public function buscaPorDescricao($descricao) {
+        public function buscaPorPreco($preco) {
 
-        $marca = null;
+        $estoque = null;
 
         $query = "SELECT
-                    id, nome, descricao
+                    id, produtoid, qtd, preco
                 FROM
                     " . $this->table_name . "
                 WHERE
-                    descricao = ?
+                    preco = ?
                 LIMIT
                     1 OFFSET 0";
      
         $stmt = $this->conn->prepare( $query );
-        $stmt->bindParam(1, $descricao);
+        $stmt->bindParam(1, $preco);
         $stmt->execute();
      
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if($row) {
-            $marca = new Marca($row['id'], $row['nome'], $row['descricao']);
+            $estoque = new estoque($row['id'], $row['produtoid'], $row['qtd'], $row['preco']);
         } 
      
-        return $marca;
+        return $estoque;
     }
 
     public function buscaTodos() {
 
         $query = "SELECT
-                    id, nome, descricao
+                    id, produtoid, qtd, preco
                 FROM
                     " . $this->table_name . 
                     " ORDER BY id ASC";
@@ -151,14 +152,23 @@ class PostgresMarcaDao extends DAO implements MarcaDao {
         $stmt = $this->conn->prepare( $query );
         $stmt->execute();
 
-        $marcas = [];
+        $estoques = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 
             extract($row);
-            $marca = new Marca($id,$nome,$descricao); 
-            $marcas[] = $marca;
+            $estoque = new estoque($id,$produtoid,$qtd,$preco); 
+            $estoques[] = $estoque;
         }
-        return $marcas;
+        return $estoques;
     }
+
+    public function buscaPorProduto($produtoId) {
+    $sql = "SELECT * FROM estoque WHERE produto_id=?";
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute([$produtoId]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
 }
 ?>

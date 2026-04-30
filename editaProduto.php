@@ -9,7 +9,7 @@ $foto = @$_POST["foto"];
 
 $produtos = $dao->buscaTodos();
 if($produto==null) {
-    $produto = new Produto(null, null, null, null);
+    $produto = new Produto(null, null, null, null, null);
     }
     ?>
 
@@ -25,8 +25,7 @@ if($produto==null) {
 
         <form class="mx-auto w-25 text-align-center border px-2" action="salvaProduto.php" enctype="multipart/form-data" method=post>
             <div class="mb-3">
-                <label class="form-label" for="id">Id:</label>
-                <input type="number" class="form-control border border-dark" value="<?=$produto->getId()?>" name="id"/>
+                <input type="hidden" value="<?=$produto->getId()?>" name="id"/>
                 <br>
             </div>
             <div class="mb-3">
@@ -45,6 +44,15 @@ if($produto==null) {
                 <input class="form-control border border-dark" type="file" name="foto"/>
                 <br>
             </div>
+            <select name="fornecedor_id" class="form-select">
+                <?php
+                $fornecedores = $factory->getFornecedorDao()->buscaTodos();
+
+                foreach($fornecedores as $f) {
+                    echo "<option value='".$f->getId()."'>".$f->getNome()."</option>";
+                }
+                ?>
+            </select>
             <div class="mb-3 w-25 mx-auto">
                 <input class="btn border border-dark" type= "submit" value="Salvar"/>
             </div>

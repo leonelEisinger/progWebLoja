@@ -23,12 +23,10 @@ if($usuario==null) {
 
         <form class="mx-auto w-25 text-align-center border px-2" action="salvaUsuario.php" method=post>
             <div class="mb-3">
-                <label class="form-label" for="id">Id:</label>
-                <input required type="number" class="form-control border border-dark" value="<?=$usuario->getId()?>" name="id"/>
-                <br>
+                <input type="hidden" value="<?=$usuario->getId()?>" name="id"/>
             </div>
             <div class="mb-3">
-                <label class="form-label" for="login">Nome de login:</label>
+                <label class="form-label" for="login">Nome de Usuário:</label>
                 <input required class="form-control border border-dark" type= "text" value="<?=$usuario->getLogin()?>" name="login"/>
                 <br>
             </div>
@@ -57,14 +55,14 @@ if($usuario==null) {
                 <input class="form-control border border-dark" type= "text" value="<?=$usuario->getCartaoCredito()?>" name="cartaoCredito"/>
                 <br>
             </div>
-            <!--<div class="mb-3 dropdown">
-                <label class="form-label" for="selectTipo">Tipo da conta</label>
-                <select class="form-select border border-dark" name="selectTipo">
-                    <option selected value="1">Vou apenas comprar</option>
-                    <option value="2">Vou apenas vender</option>
-                    <option value="3">Vou comprar e vender</option>
+            <div class="mb-3 dropdown">
+                <label class="form-label" for="tipo">Tipo da conta</label>
+                <select class="form-select border border-dark" name="tipo">
+                    <option selected value="0">Vou apenas comprar</option>
+                    <option value="1">Vou apenas vender</option>
+                    <option value="2">Vou comprar e vender</option>
                 </select>
-            </div>-->
+            </div>
 
             <div class="mb-3 w-25 mx-auto">
                 <input class="btn border border-dark" type= "submit" value="Salvar"/>
