@@ -7,7 +7,6 @@ interface EstoqueDao {
     public function buscaPorId($id);
     public function buscaPorQtd($qtd);
     public function buscaPorPreco($preco);
-
     public function buscaPorProduto($produtoid);
 
     

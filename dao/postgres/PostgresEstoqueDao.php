@@ -54,6 +54,7 @@ class PostgresEstoqueDao extends DAO implements EstoqueDao {
         $stmt = $this->conn->prepare($query);
 
         // bind parameters
+        $stmt->bindParam(":id", $estoque->getId());
         $stmt->bindParam(":produtoid", $estoque->getProdutoid());
         $stmt->bindParam(":qtd", $estoque->getQtd());
         $stmt->bindParam(":preco", $estoque->getPreco());
@@ -85,7 +86,7 @@ class PostgresEstoqueDao extends DAO implements EstoqueDao {
      
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if($row) {
-            $estoque = new estoque($row['id'], $row['produtoid'], $row['qtd'], $row['preco']);
+            $estoque = new Estoque($row['id'], $row['produtoid'], $row['qtd'], $row['preco']);
         } 
      
         return $estoque;
@@ -100,7 +101,7 @@ class PostgresEstoqueDao extends DAO implements EstoqueDao {
                 FROM
                     " . $this->table_name . "
                 WHERE
-                    nome = ?
+                    qtd = ?
                 LIMIT
                     1 OFFSET 0";
      
@@ -110,7 +111,7 @@ class PostgresEstoqueDao extends DAO implements EstoqueDao {
      
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if($row) {
-            $estoque = new estoque($row['id'], $row['produtoid'], $row['qtd'], $row['preco']);
+            $estoque = new Estoque($row['id'], $row['produtoid'], $row['qtd'], $row['preco']);
         } 
      
         return $estoque;
@@ -135,7 +136,7 @@ class PostgresEstoqueDao extends DAO implements EstoqueDao {
      
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if($row) {
-            $estoque = new estoque($row['id'], $row['produtoid'], $row['qtd'], $row['preco']);
+            $estoque = new Estoque($row['id'], $row['produtoid'], $row['qtd'], $row['preco']);
         } 
      
         return $estoque;
@@ -144,31 +145,87 @@ class PostgresEstoqueDao extends DAO implements EstoqueDao {
     public function buscaTodos() {
 
         $query = "SELECT
-                    id, produtoid, qtd, preco
-                FROM
-                    " . $this->table_name . 
-                    " ORDER BY id ASC";
+            e.id,
+            e.produtoid,
+            e.qtd,
+            e.preco,
+            p.nome AS produto_nome
+          FROM estoque e
+          JOIN produto p ON p.id = e.produtoid
+          ORDER BY e.id ASC";
      
         $stmt = $this->conn->prepare( $query );
         $stmt->execute();
 
         $estoques = [];
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-            extract($row);
-            $estoque = new estoque($id,$produtoid,$qtd,$preco); 
+            $estoque = new Estoque(
+                $row["id"],
+                $row["produtoid"],
+                $row["qtd"],
+                $row["preco"]
+            );
+
+            $estoque->setProdutoNome($row["produto_nome"]); // 🔥 THIS LINE
+
             $estoques[] = $estoque;
         }
+
+        
         return $estoques;
     }
 
     public function buscaPorProduto($produtoId) {
-    $sql = "SELECT * FROM estoque WHERE produto_id=?";
+    $sql = "SELECT * FROM estoque WHERE produtoid=?";
 
     $stmt = $this->conn->prepare($sql);
     $stmt->execute([$produtoId]);
 
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
+    public function buscaPorNomeCom($palavra) {
+        
+    $lista = array();        
+    
+        $query = "SELECT
+            e.id,
+            e.produtoid,
+            e.qtd,
+            e.preco,
+            p.nome AS produto_nome
+          FROM estoque e
+          JOIN produto p ON p.id = e.produtoid
+          WHERE p.nome LIKE ?
+          ORDER BY e.id ASC";
+    
+        $stmt = $this->conn->prepare($query);
+        $parametro = "%" . $palavra . "%";
+        $stmt->bindValue(1, $parametro);
+        $stmt->execute();
+    
+            $lista = [];
+
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+                $estoque = new Estoque(
+                    $row["id"],
+                    $row["produtoid"],
+                    $row["qtd"],
+                    $row["preco"]
+                );
+
+                $estoque->setProdutoNome($row["produto_nome"]);
+
+                $lista[] = $estoque;
+            }
+
+    
+        return $lista;
+    }
+
+
+
 }
 ?>

@@ -5,6 +5,15 @@ include_once "fachada.php";
 $id = @$_POST["id"];
 $nome = @$_POST["nome"];
 $descricao = @$_POST["descricao"];
+$fornecedorId = @$_POST["fornecedorId"];
+$produtoId = $dao->insere($produto);
+
+$estoqueDao = $factory->getEstoqueDao();
+
+$qtd = $_POST["qtd"];
+$preco = $_POST["preco"];
+
+$estoqueDao->insere($produtoId, $qtd, $preco);
 
 $foto = null;
 
@@ -32,11 +41,12 @@ if (!empty($id)) {
     $produto = $dao->buscaPorId($id);
 }
 if($produto===null) {
-    $produto = new Produto($id, $nome, $descricao, $foto, $fornecedorId);
+    $produto = new Produto($id, $nome, $descricao, $foto, $fornecedorId, $qtd, $preco);
     $dao->insere($produto);
 } else {
     $produto->setNome($nome);
     $produto->setDescricao($descricao);
+    $produto->setFornecedorId($fornecedorId);
 
     if ($foto != null) {
         $produto->setFoto($foto);

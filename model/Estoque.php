@@ -5,6 +5,7 @@ class Estoque {
     private $produtoid;
     private $qtd;
     private $preco;
+    private $produtoNome;
 
 
 
@@ -24,6 +25,8 @@ public function __construct($id, $produtoid, $qtd, $preco)
     public function setQtd($qtd) {$this->qtd = $qtd;}
     public function getPreco() { return $this->preco; }
     public function setPreco($preco) {$this->preco = $preco;}
+    public function getProdutoNome() { return $this->produtoNome; }
+    public function setProdutoNome($produtoNome) {$this->preco = $produtoNome;}
 }
 
 

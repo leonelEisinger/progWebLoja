@@ -5,11 +5,10 @@ $id = @$_GET["id"];
 
 $dao = $factory->getProdutoDao();
 $produto = $dao->buscaPorId($id);
-$foto = @$_POST["foto"];
 
 $produtos = $dao->buscaTodos();
 if($produto==null) {
-    $produto = new Produto(null, null, null, null, null);
+    $produto = new Produto(null, null, null, null, null, null, null);
     }
     ?>
 
@@ -44,13 +43,14 @@ if($produto==null) {
                 <input class="form-control border border-dark" type="file" name="foto"/>
                 <br>
             </div>
-            <select name="fornecedor_id" class="form-select">
+            <select name="fornecedorId" class="form-select">
                 <?php
-                $fornecedores = $factory->getFornecedorDao()->buscaTodos();
+                    $fornecedores = $factory->getFornecedorDao()->buscaTodos();
 
-                foreach($fornecedores as $f) {
-                    echo "<option value='".$f->getId()."'>".$f->getNome()."</option>";
-                }
+                    foreach($fornecedores as $f) {
+                        $selected = ($produto->getFornecedorId() == $f->getId()) ? "selected" : "";
+                        echo "<option value='".$f->getId()."' $selected>".$f->getNome()."</option>";
+                    }
                 ?>
             </select>
             <div class="mb-3 w-25 mx-auto">

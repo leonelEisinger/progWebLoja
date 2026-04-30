@@ -52,8 +52,8 @@ foreach($produtos as $p) {
                    
                     echo "<div class='text-center'>";
                         echo "<span class='badge bg-dark mb-2 m-1'>". $p->getFornecedorNome() ."</span>";
-                        echo "<span class='badge bg-success mb-2'>". $p->getFornecedorNome() ."</span>";
-                        echo "<span class='badge bg-info mb-2 m-1'>". $p->getFornecedorNome() ."</span>";
+                        echo "<span class='badge bg-success mb-2'> Qtd: ". $p->getQtd() ."</span>";
+                        echo "<span class='badge bg-info mb-2 m-1'> R$ ". $p->getPreco() ."</span>";
                     echo "</div>";
                     
                     echo "<nav class='mx-auto my-auto text-center'>";
