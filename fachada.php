@@ -17,6 +17,7 @@ include_once('dao/EstoqueDao.php');
 include_once('dao/DaoFactory.php');
 include_once('dao/postgres/PostgresDaoFactory.php');
 
+
 $factory = new PostgresDaofactory();
 
 

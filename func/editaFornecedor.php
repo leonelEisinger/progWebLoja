@@ -1,5 +1,5 @@
 <?php
-include_once "fachada.php";
+include_once("../fachadaFunc.php");
 
 $id = @$_GET["id"];
 
@@ -18,7 +18,7 @@ if($fornecedor==null) {
 	</head>
 	<body>
 	
-        <a class="btn btn-outline-danger m-2" href="fornecedores.php">Voltar</a>
+        <a class="btn btn-outline-danger m-2" href="../fornecedores.php">Voltar</a>
 		<h1 class="mx-auto w-25 text-align-center">Cadastro de fornecedores</h1>
 
         <form class="mx-auto w-25 text-align-center border px-2" action="salvaFornecedor.php" method=post>

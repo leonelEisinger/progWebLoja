@@ -1,3 +1,4 @@
+
 create table cliente (
 	id serial not null,
 	login varchar(30) not null unique,
@@ -15,6 +16,7 @@ select *
 from cliente;
 
 insert into cliente(login, senha, nome, telefone, email, cartaoCredito, tipo) values ('krohn','123','Alexandre Krohn', '5554999999999', 'email@email.com', '1234567890654321', 0);
+insert into cliente(login, senha, nome, telefone, email, cartaoCredito, tipo) values ('alexandre','123','Alexandre K.', '5554999999999', 'email@email.com', '1234567890654321', 0);
 insert into cliente(login, senha, nome, telefone, email, cartaoCredito, tipo) values ('teste','321','Teste da Silva', '5252988889999', 'testesilva@email.com', '1597532684159753', 1);
 insert into cliente(login, senha, nome, telefone, email, cartaoCredito, tipo) values ('god','4321','Administrador', '0000000000000', '@god.com', '0000000000000000', 2);
 

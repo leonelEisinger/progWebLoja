@@ -1,7 +1,7 @@
 <?php
 
-include_once("fachada.php");
-include_once("comum.php");
+include_once("../fachadaFunc.php");
+include_once("../comum.php");
 
 
 if ( is_session_started() === FALSE ) {
@@ -52,8 +52,8 @@ foreach($usuarios as $u) {
                     <?php
                         if(isset($_SESSION["nome_usuario"])) {
                             //echo "<button class='btn btn-primary w-100 my-2'> Adicionar ao carrinho </button>";
-                            echo "<a href='editaUsuario.php?id=" . $u->getId() . "'class='btn btn-warning mx-1'>Editar</a>";
-                            echo "<a href='excluiUsuario.php?id=" . $u->getId() . "'class='btn btn-danger'" . "onclick='return confirm(\"Tem certeza que deseja excluir?\")'" . ">Remover</a>";
+                            echo "<a href='func/editaUsuario.php?id=" . $u->getId() . "'class='btn btn-warning mx-1'>Editar</a>";
+                            echo "<a href='func/excluiUsuario.php?id=" . $u->getId() . "'class='btn btn-danger'" . "onclick='return confirm(\"Tem certeza que deseja excluir?\")'" . ">Remover</a>";
                         } else {
                             echo "<button class='btn btn-primary w-100'> Adicionar ao carrinho </button>";
                         }

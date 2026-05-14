@@ -38,7 +38,7 @@ if ( is_session_started() === FALSE ) {
 
 
 	<div class="container">
-		<a class='btn mx-1 my-2 btn-lg' id='btn-novoUsuario' href='editaUsuario.php' style="background-color: #FF7F11;"><strong>Adicionar usuário</strong></a>
+		<a class='btn mx-1 my-2 btn-lg' id='btn-novoUsuario' href='func/editaUsuario.php' style="background-color: #FF7F11;"><strong>Adicionar usuário</strong></a>
 		<div class="input-group w-50">
 			<input type="text" class="form-control" id="palavraUser" placeholder="Buscar...">
 			<button class="btn" id="buscarU" style="background-color: #FF7F11;"><strong>Buscar</strong></button>
@@ -65,7 +65,7 @@ if ( is_session_started() === FALSE ) {
                     body: JSON.stringify(parametros)
             }
             
-            const retorno = fetch('busca_ajaxU.php', config)
+            const retorno = fetch('func/busca_ajaxU.php', config)
                 .then(resposta => resposta.text())
                 .then(tabela => {dados.innerHTML = tabela;});    
             

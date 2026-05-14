@@ -62,7 +62,7 @@ if ( is_session_started() === FALSE ) {
                     body: JSON.stringify(parametros)
             }
             
-            const retorno = fetch('busca_ajaxE.php', config)
+            const retorno = fetch('func/busca_ajaxE.php', config)
                 .then(resposta => resposta.text())
                 .then(tabela => {dados.innerHTML = tabela;});    
             

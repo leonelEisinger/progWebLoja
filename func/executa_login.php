@@ -1,6 +1,6 @@
 <?php 
 // Métodos de acesso ao banco de dados 
-require "fachada.php"; 
+require "../fachadaFunc.php"; 
  
 // Inicia sessão 
 session_start();
@@ -16,7 +16,7 @@ if(!$login || !$senha)
 { 
     echo "login = " . $login . " / senha = " . $senha . "<br>";
     echo "Você deve digitar sua senha e login!<br>"; 
-    echo "<a href='login.php'>Efetuar Login</a>";
+    echo "<a href='../login.php'>Efetuar Login</a>";
     exit; 
 }  
 
@@ -34,7 +34,7 @@ if($usuario) {
         $_SESSION["tipo"] = $usuario->getTipo();
 
         //$_SESSION["permissao"]= $dados["postar"]; 
-        header("Location: index.php"); 
+        header("Location: ../index.php"); 
         exit; 
     } else {
         $problemas = TRUE; 
@@ -44,7 +44,7 @@ if($usuario) {
 }
 
 if($problemas==TRUE) {
-    header("Location: login.php"); 
+    header("Location: ../login.php"); 
     exit; 
 }
 ?>

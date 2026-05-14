@@ -43,7 +43,7 @@ if ( is_session_started() === FALSE ) {
                     <?php
                         if(isset($_SESSION["nome_usuario"])) {
                             echo "<span class='me-2'>Olá, <strong>" . $_SESSION["nome_usuario"] . "</strong></span>";
-                            echo "<a class='btn btn-danger btn-sm' href='executa_logout.php'>Sair</a>";
+                            echo "<a class='btn btn-danger btn-sm' href='func/executa_logout.php'>Sair</a>";
                         } else {
                             echo "<a class='btn btn-dark' href='login.php'>Entrar</a>";
                         }

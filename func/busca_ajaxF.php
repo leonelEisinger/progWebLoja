@@ -1,7 +1,7 @@
 <?php
 
-include_once("fachada.php");
-include_once("comum.php");
+include_once ("../fachadaFunc.php");
+include_once("../comum.php");
 
 
 if ( is_session_started() === FALSE ) {
@@ -54,8 +54,8 @@ foreach($fornecedor as $f) {
                     <?php
                         if(isset($_SESSION["nome_usuario"])) {
                             //echo "<button class='btn btn-primary w-100 my-2'> Adicionar ao carrinho </button>";
-                            echo "<a href='editaFornecedor.php?id=" . $f->getId() . "'class='btn btn-warning mx-1'>Editar</a>";
-                            echo "<a href='excluiFornecedor.php?id=" . $f->getId() . "'class='btn btn-danger'" . "onclick='return confirm(\"Tem certeza que deseja excluir?\")'" . ">Remover</a>";
+                            echo "<a href='func/editaFornecedor.php?id=" . $f->getId() . "'class='btn btn-warning mx-1'>Editar</a>";
+                            echo "<a href='func/excluiFornecedor.php?id=" . $f->getId() . "'class='btn btn-danger'" . "onclick='return confirm(\"Tem certeza que deseja excluir?\")'" . ">Remover</a>";
                         }
                     ?>
                 

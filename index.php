@@ -19,7 +19,7 @@ include_once("layout_header.php");
 <body>
     
     <div class="container">
-        <a class='btn mx-1 my-2 btn-lg' id='btn-novoProduto' href='editaProduto.php'><strong>Adicionar produto</strong></a>
+        <a class='btn mx-1 my-2 btn-lg' id='btn-novoProduto' href='func/editaProduto.php'><strong>Adicionar produto</strong></a>
         <h2>Meus produtos:</h2>
         <div id="dados" class="row mt-4"></div>
     </div>
@@ -41,7 +41,7 @@ include_once("layout_header.php");
                     body: JSON.stringify(parametros)
             }
             
-            const retorno = fetch('busca_ajax.php', config)
+            const retorno = fetch('func/busca_ajax.php', config)
                 .then(resposta => resposta.text())
                 .then(tabela => {dados.innerHTML = tabela;});    
             

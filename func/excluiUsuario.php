@@ -1,6 +1,6 @@
 <?php
 
-include_once "fachada.php";
+include_once("../fachadaFunc.php");
 
 $id = @$_GET["id"];
 
@@ -10,6 +10,6 @@ $usuario = new Usuario($id, null, null, null, null, null, null, null);
 
 $dao->remove($usuario);
 
-header("Location: usuarios.php");
+header("Location: ../usuarios.php");
 
 ?>

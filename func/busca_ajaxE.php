@@ -1,7 +1,7 @@
 <?php
 
-include_once("fachada.php");
-include_once("comum.php");
+include_once ("../fachadaFunc.php");
+include_once("../comum.php");
 
 
 if ( is_session_started() === FALSE ) {
@@ -51,7 +51,7 @@ foreach($estproduto as $ep) {
                     
                     <?php
                         if(isset($_SESSION["nome_usuario"])) {
-                            echo "<a href='editaEstoque.php?id=" . $ep->getId() . "'class='btn btn-warning mx-1'>Editar</a>";
+                            echo "<a href='func/editaEstoque.php?id=" . $ep->getId() . "'class='btn btn-warning mx-1'>Editar</a>";
                         }
                     ?>
                 

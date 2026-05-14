@@ -36,7 +36,7 @@ if ( is_session_started() === FALSE ) {
 
 
 	<div class="container">
-		<a class='btn mx-1 my-2 btn-lg' id='btn-novoFornecedor' href='editaFornecedor.php' style="background-color: #FF7F11;"><strong>Adicionar fornecedores</strong></a>
+		<a class='btn mx-1 my-2 btn-lg' id='btn-novoFornecedor' href='func/editaFornecedor.php' style="background-color: #FF7F11;"><strong>Adicionar fornecedores</strong></a>
 		<div class="input-group w-50">
 			<input type="text" class="form-control" id="palavraFor" placeholder="Buscar...">
 			<button class="btn" id="buscarU" style="background-color: #FF7F11;"><strong>Buscar</strong></button>
@@ -63,7 +63,7 @@ if ( is_session_started() === FALSE ) {
                     body: JSON.stringify(parametros)
             }
             
-            const retorno = fetch('busca_ajaxF.php', config)
+            const retorno = fetch('func/busca_ajaxF.php', config)
                 .then(resposta => resposta.text())
                 .then(tabela => {dados.innerHTML = tabela;});    
             

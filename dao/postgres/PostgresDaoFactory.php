@@ -13,7 +13,7 @@ class PostgresDaofactory extends DaoFactory {
     private $db_name = "PHP_tutorial";
     private $port = "5432";
     private $username = "postgres";
-    private $password = "123";
+    private $password = "ucs";
     public $conn;
   
     // get the database connection

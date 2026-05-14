@@ -55,6 +55,7 @@ class PostgresFornecedorDao extends DAO implements FornecedorDao {
         $stmt = $this->conn->prepare($query);
 
         // bind parameters
+        $stmt->bindParam(":id", $fornecedor->getId());
         $stmt->bindParam(":nome", $fornecedor->getNome());
         $stmt->bindParam(":descricao", $fornecedor->getDescricao());
         $stmt->bindParam(":telefone", $fornecedor->getTelefone());

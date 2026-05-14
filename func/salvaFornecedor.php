@@ -1,6 +1,6 @@
 <?php
 
-include_once "fachada.php";
+include_once("../fachadaFunc.php");
 
 $id = @$_POST["id"];
 $nome = @$_POST["nome"];
@@ -25,6 +25,6 @@ if($fornecedor===null) {
 }
 
 
-header("Location: fornecedores.php");
+header("Location: ../fornecedores.php");
 
 ?>

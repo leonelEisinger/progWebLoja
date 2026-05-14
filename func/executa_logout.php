@@ -1,12 +1,12 @@
 <?php
 
-include_once "comum.php";
+include_once "../comum.php";
 
 //if ( is_session_started() === FALSE ) {
     session_start();
     if(isset($_SESSION["nome_usuario"])) {
         session_destroy();
-        header("location: index.php");
+        header("location: ../index.php");
         exit();
     } 
 //} 
