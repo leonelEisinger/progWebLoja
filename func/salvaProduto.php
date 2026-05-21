@@ -1,6 +1,6 @@
 <?php
 
-include_once("../fachadaFunc.php");
+include_once("../includes/fachadaFunc.php");
 
 $id = @$_POST["id"];
 $nome = @$_POST["nome"];
@@ -14,13 +14,13 @@ $foto = null;
 // upload da imagem
 if (isset($_FILES["foto"]) && $_FILES["foto"]["name"] != "") {
 
-    $pasta = "uploads/";
+    $pasta = "../uploads/";
 
     if (!is_dir($pasta)) {
         mkdir($pasta, 0777, true);
     }
 
-    $nomeArquivo = uniqid() . "_" . $_FILES["foto"]["name"];
+    $nomeArquivo = $_FILES["foto"]["name"];
 
     move_uploaded_file(
         $_FILES["foto"]["tmp_name"],
@@ -69,5 +69,5 @@ if (!empty($id)) {
     $estoqueDao->insere($estoque);
 }
 
-header("Location: index.php");
+header("Location: ../index.php");
 ?>

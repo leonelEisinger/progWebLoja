@@ -30,28 +30,52 @@ class PostgresProdutoDao extends DAO implements ProdutoDao {
     }
 
         public function buscaPorNomeCom($palavra) {
-            
-        $usuarios = array();        
-        
-            $query = "SELECT
-                        id, nome, descricao, foto, fornecedorId
-                    FROM
-                        " . $this->table_name . "
-                    WHERE
-                        nome like ? ORDER BY id ASC";
-        
-            $stmt = $this->conn->prepare($query);
-            $parametro = "%" . $palavra . "%";
-            $stmt->bindValue(1, $parametro);
-            $stmt->execute();
-        
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-                extract($row);
-                $usuarios[] = new Produto($id,$nome,$descricao,$foto,$fornecedorId,$qtd,$preco);
-            }
-        
-            return $usuarios;
+
+        $produtos = array();
+
+        $query = "
+            SELECT 
+                p.id,
+                p.nome,
+                p.descricao,
+                p.foto,
+                p.fornecedorid,
+                e.qtd,
+                e.preco,
+                f.nome AS fornecedor_nome
+            FROM produto p
+            LEFT JOIN estoque e ON e.produtoid = p.id
+            LEFT JOIN fornecedor f ON f.id = p.fornecedorid
+            WHERE LOWER(p.nome) LIKE ?
+            ORDER BY p.id ASC
+        ";
+
+        $stmt = $this->conn->prepare($query);
+
+        $parametro = "%" . mb_strtolower($palavra, 'UTF-8') . "%";
+        $stmt->bindValue(1, $parametro);
+
+        $stmt->execute();
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            $produto = new Produto(
+                $row['id'],
+                $row['nome'],
+                $row['descricao'],
+                $row['foto'],
+                $row['fornecedorid']
+            );
+
+            $produto->setQtd($row['qtd'] ?? 0);
+            $produto->setPreco($row['preco'] ?? 0);
+            $produto->setFornecedorNome($row['fornecedor_nome']);
+
+            $produtos[] = $produto;
         }
+
+        return $produtos;
+    }
 
     public function remove($produto) {
         $query = "DELETE FROM " . $this->table_name . 

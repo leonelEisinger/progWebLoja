@@ -1,6 +1,6 @@
 <?php 
 // Métodos de acesso ao banco de dados 
-require "../fachadaFunc.php"; 
+require "../includes/fachadaFunc.php"; 
  
 // Inicia sessão 
 session_start();

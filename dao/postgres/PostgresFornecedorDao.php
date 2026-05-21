@@ -174,7 +174,7 @@ class PostgresFornecedorDao extends DAO implements FornecedorDao {
                     FROM
                         " . $this->table_name . "
                     WHERE
-                        nome like ? ORDER BY id ASC";
+                        LOWER(nome) like ? ORDER BY id ASC";
         
             $stmt = $this->conn->prepare($query);
             $parametro = "%" . $palavra . "%";

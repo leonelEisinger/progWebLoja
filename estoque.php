@@ -1,6 +1,6 @@
 <?php
-include_once("fachada.php");
-include_once("layout_header_clean.php");
+include_once("includes/fachada.php");
+include_once("includes/layout_header_clean.php");
 
 if ( is_session_started() === FALSE ) {
 			session_start();
@@ -20,7 +20,7 @@ if ( is_session_started() === FALSE ) {
 	<title>Estoque</title>
 </head>
 
-<body>
+<body data-tipo="estoque">
 
 <?php 
 
@@ -37,53 +37,16 @@ if ( is_session_started() === FALSE ) {
 
 	<div class="container">
 		<div class="input-group w-50">
-			<input type="text" class="form-control" id="palavraEst" placeholder="Buscar...">
-			<button class="btn" id="buscarU" style="background-color: #FF7F11;"><strong>Buscar</strong></button>
+			<input type="text" class="form-control" id="palavra" placeholder="Buscar...">
+			<button class="btn" id="buscar" style="background-color: #FF7F11;"><strong>Buscar</strong></button>
 		</div>
         <h2>Estoque:</h2>
-        <div id="dadosEst" class="row mt-4"></div>
+        <div id="dados" class="row mt-4"></div>
     </div>
 
 	
 
-<script>
-       
-        function buscarU(palavraEst)
-        {
-            var dados = document.getElementById('dadosEst');
-
-            const parametros = {
-                "palavraEst": palavraEst,
-            }
-
-            const config = {
-                    method: "POST",
-                    headers: {"Content-type": "application/json; charset=UTF-8"},
-                    body: JSON.stringify(parametros)
-            }
-            
-            const retorno = fetch('func/busca_ajaxE.php', config)
-                .then(resposta => resposta.text())
-                .then(tabela => {dados.innerHTML = tabela;});    
-            
-        }
-        
-        const botaoBuscar = document.getElementById('buscarU');
-        
-        botaoBuscar.addEventListener("click", function(event) { 
-            var palavraEst =  document.getElementById('palavraEst');
-            buscarU(palavraEst.value);
-        });
-
-        const inputPalavra = document.getElementById('palavraEst');
-        
-        inputPalavra.addEventListener("input", function(event) { 
-            buscarU(event.target.value);
-        });
-            
-        buscarU(palavraEst.value);
-
-    </script>
+    <script src="script/busca.js"></script>
 
 
 <?php

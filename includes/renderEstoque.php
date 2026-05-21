@@ -1,39 +1,6 @@
 <?php
-
-include_once ("../fachadaFunc.php");
-include_once("../comum.php");
-
-
-if ( is_session_started() === FALSE ) {
-			session_start();
-		}	
-
-
-$palavraEst = @$_POST['palavraEst'];
-
-if($palavraEst == null) {
-    $conteudo = file_get_contents('php://input');
-    $valores = json_decode($conteudo, true);
-    $palavraEst = $valores['palavraEst'];
-
-    
-}
-
-$palavraEst = mb_strtolower(trim($palavraEst ?? ''), 'UTF-8');
-        
-$dao = $factory->getEstoqueDao();
-
-
-
-if($palavraEst) {
-    $estproduto = $dao->buscaPorNomeCom($palavraEst);
-} else{
-    $estproduto = $dao->buscaTodos();
-}
-
-
-foreach($estproduto as $ep) {
-?>
+function renderEstoque($ep) {
+    ?>
     <div class="col-md-3">
         <div class="card estoque-card mb-4">
 
@@ -56,13 +23,12 @@ foreach($estproduto as $ep) {
                         }
                     ?>
                 
-                    
-                    
                 </nav>
 
             </div>
         </div>
     </div>
-<?php
+    <?php
 }
+
 ?>

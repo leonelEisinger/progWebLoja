@@ -1,6 +1,6 @@
 <?php
 
-include_once "../comum.php";
+include_once "../includes/comum.php";
 
 //if ( is_session_started() === FALSE ) {
     session_start();

@@ -45,6 +45,24 @@ class PostgresEstoqueDao extends DAO implements EstoqueDao {
         return false;
     }
 
+    public function removePorProdutoId($estoque){
+
+        $query = "DELETE FROM " . $this->table_name .  
+        " WHERE produtoid = :produtoid";
+
+        $stmt = $this->conn->prepare($query);
+
+        // bind parameters
+        $stmt->bindParam(":produtoid", $estoque->getProdutoid());
+
+        // execute the query
+        if($stmt->execute()){
+            return true;
+        }    
+
+        return false;
+    }
+
     public function altera($estoque) {
 
         $query = "UPDATE " . $this->table_name . 
@@ -207,7 +225,7 @@ public function buscaPorId($id) {
             p.nome AS produtoNome
           FROM estoque e
           JOIN produto p ON p.id = e.produtoid
-          WHERE p.nome LIKE ?
+          WHERE LOWER(p.nome) LIKE ?
           ORDER BY e.id ASC";
     
         $stmt = $this->conn->prepare($query);

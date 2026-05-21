@@ -1,39 +1,6 @@
 <?php
-
-include_once("../fachadaFunc.php");
-include_once("../comum.php");
-
-
-if ( is_session_started() === FALSE ) {
-			session_start();
-		}	
-
-
-$palavraUser = @$_POST['palavraUser'];
-
-if($palavraUser == null) {
-    $conteudo = file_get_contents('php://input');
-    $valores = json_decode($conteudo, true);
-    $palavraUser = $valores['palavraUser'];
-
-    
-}
-
-$palavraUser = mb_strtolower(trim($palavraUser ?? ''), 'UTF-8');
-        
-$dao = $factory->getUsuarioDao();
-
-
-
-if($palavraUser) {
-    $usuarios = $dao->buscaPorNomeCom($palavraUser);
-} else{
-    $usuarios = $dao->buscaTodos();
-}
-
-
-foreach($usuarios as $u) {
-?>
+function renderUsuario($u) {
+    ?>
     <div class="col-md-3">
         <div class="card produto-card mb-4">
 
@@ -67,6 +34,7 @@ foreach($usuarios as $u) {
             </div>
         </div>
     </div>
-<?php
+    <?php
 }
+
 ?>

@@ -1,6 +1,6 @@
 <?php
 
-include_once("../fachadaFunc.php");
+include_once("../includes/fachadaFunc.php");
 
 $id = @$_POST["id"];
 $produtoid = @$_POST["produtoid"];
@@ -22,6 +22,6 @@ if($estoque===null) {
 }
 
 
-header("Location: estoque.php");
+header("Location: ../estoque.php");
 
 ?>

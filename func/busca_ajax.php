@@ -1,80 +1,84 @@
 <?php
 
-include_once ("../fachadaFunc.php");
-include_once("../comum.php");
+include_once("../includes/fachadaFunc.php");
+include_once("../includes/comum.php");
+include_once("../includes/renderProduto.php");
+include_once("../includes/renderFornecedor.php");
+include_once("../includes/renderEstoque.php");
+include_once("../includes/renderUsuario.php");
 
+if (!isset($_SESSION)) session_start();
 
+$conteudo = file_get_contents('php://input');
+$json = json_decode($conteudo, true);
 
-if ( is_session_started() === FALSE ) {
-			session_start();
-		}	
+$tipo = $json['tipo'] ?? '';
+$palavra = mb_strtolower(trim($json['palavra'] ?? ''), 'UTF-8');
 
+if (!isset($factory)) {
+    die("Factory não inicializada");
+}
+switch ($tipo) {
 
-$palavra = @$_POST['palavra'];
+    case 'produto':
 
-if($palavra == null) {
-    $conteudo = file_get_contents('php://input');
-    $valores = json_decode($conteudo, true);
-    $palavra = $valores['palavra'];
+        $dao = $factory->getProdutoDao();
 
+        $lista = $palavra
+            ? $dao->buscaPorNomeCom($palavra)
+            : $dao->buscaTodos();
+
+        foreach ($lista as $p) {
+            renderProduto($p);
+        }
+
+        break;
+
+    case 'fornecedor':
+
+        $dao = $factory->getFornecedorDao();
+
+        $lista = $palavra
+            ? $dao->buscaPorNomeCom($palavra)
+            : $dao->buscaTodos();
+
+        foreach ($lista as $f) {
+            renderFornecedor($f);
+        }
+
+        break;
     
+    case 'estoque':
+
+        $dao = $factory->getEstoqueDao();
+
+        $lista = $palavra
+            ? $dao->buscaPorNomeCom($palavra)
+            : $dao->buscaTodos();
+
+        foreach ($lista as $e) {
+            renderEstoque($e);
+        }
+
+        break;
+    
+    case 'usuario':
+
+        $dao = $factory->getUsuarioDao();
+
+        $lista = $palavra
+            ? $dao->buscaPorNomeCom($palavra)
+            : $dao->buscaTodos();
+
+        foreach ($lista as $u) {
+            renderUsuario($u);
+        }
+
+        break;
+
+    default:
+        echo "<p>Tipo inválido</p>";
+        break;
 }
-        
-        
-$dao = $factory->getProdutoDao();
 
-
-
-if($palavra) {
-    $produtos = $dao->buscaPorNomeCom($palavra);
-} else{
-    $produtos = $dao->buscaTodos();
-}
-
-
-foreach($produtos as $p) {
-?>
-    <div class="col-md-3">
-        <div class="card produto-card mb-4">
-
-            <!-- IMAGEM -->
-            <img src="uploads/<?=$p->getFoto()?>"
-                 class="card-img-top">
-
-            <div class="card-body">
-
-                <!-- NOME -->
-                <h6 class="text-dark card-title"><?=$p->getNome()?></h6>
-
-                <!-- PREÇO -->
-                <p class="text-dark-subtle fw-bold fs-5"><?=$p->getDescricao()?></p>
-
-                <?php
-                   
-                    echo "<div class='text-center'>";
-                        echo "<span class='badge bg-dark mb-2 m-1'>". $p->getFornecedorNome() ."</span>";
-                        echo "<span class='badge bg-success mb-2'> Qtd: ". $p->getQtd() ."</span>";
-                        echo "<span class='badge bg-info mb-2 m-1'> R$ ". $p->getPreco() ."</span>";
-                    echo "</div>";
-                    
-                    echo "<nav class='mx-auto my-auto text-center'>";
-                    
-                    
-                        if($_SESSION["tipo"] == 1 || $_SESSION["tipo"] == 2) {
-                            //echo "<button class='btn btn-primary w-100 my-2'> Adicionar ao carrinho </button>";
-                            echo "<a href='func/editaProduto.php?id=" . $p->getId() . "'class='btn btn-warning mx-1'>Editar</a>";
-                            echo "<a href='func/excluiProduto.php?id=" . $p->getId() . "'class='btn btn-danger'" . "onclick='return confirm(\"Tem certeza que deseja excluir?\")'" . ">Remover</a>";
-                        } else {
-                            echo "<button class='btn btn-primary w-100'> Adicionar ao carrinho </button>";
-                        }
-                    ?>
-                
-                    
-                    
-                </nav>
-            </div>
-        </div>
-    </div>
-<?php
-}
 ?>

@@ -8,3 +8,6 @@
 - Add some feedback on general
 - Remove the image of the 
 - add multiple pictures
+
+### Mandatory
+- 

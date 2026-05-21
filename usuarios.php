@@ -1,6 +1,6 @@
 <?php
-include_once("fachada.php");
-include_once("layout_header_clean.php");
+include_once("includes/fachada.php");
+include_once("includes/layout_header_clean.php");
 
 if ( is_session_started() === FALSE ) {
 			session_start();
@@ -21,7 +21,7 @@ if ( is_session_started() === FALSE ) {
 	<title>Lista de usuários</title>
 </head>
 
-<body>
+<body data-tipo="usuario">
 
 <?php 
 
@@ -40,53 +40,14 @@ if ( is_session_started() === FALSE ) {
 	<div class="container">
 		<a class='btn mx-1 my-2 btn-lg' id='btn-novoUsuario' href='func/editaUsuario.php' style="background-color: #FF7F11;"><strong>Adicionar usuário</strong></a>
 		<div class="input-group w-50">
-			<input type="text" class="form-control" id="palavraUser" placeholder="Buscar...">
-			<button class="btn" id="buscarU" style="background-color: #FF7F11;"><strong>Buscar</strong></button>
+			<input type="text" class="form-control" id="palavra" placeholder="Buscar...">
+			<button class="btn" id="buscar" style="background-color: #FF7F11;"><strong>Buscar</strong></button>
 		</div>
         <h2>Usuários:</h2>
-        <div id="dadosUser" class="row mt-4"></div>
+        <div id="dados" class="row mt-4"></div>
     </div>
 
-	
-
-<script>
-       
-        function buscarU(palavraUser)
-        {
-            var dados = document.getElementById('dadosUser');
-
-            const parametros = {
-                "palavraUser": palavraUser,
-            }
-
-            const config = {
-                    method: "POST",
-                    headers: {"Content-type": "application/json; charset=UTF-8"},
-                    body: JSON.stringify(parametros)
-            }
-            
-            const retorno = fetch('func/busca_ajaxU.php', config)
-                .then(resposta => resposta.text())
-                .then(tabela => {dados.innerHTML = tabela;});    
-            
-        }
-        
-        const botaoBuscar = document.getElementById('buscarU');
-        
-        botaoBuscar.addEventListener("click", function(event) { 
-            var palavraUser =  document.getElementById('palavraUser');
-            buscarU(palavraUser.value);
-        });
-
-        const inputPalavra = document.getElementById('palavraUser');
-        
-        inputPalavra.addEventListener("input", function(event) { 
-            buscarU(event.target.value);
-        });
-            
-        buscarU(palavraUser.value);
-
-    </script>
+	<script src="script/busca.js"></script>
 
 
 <?php

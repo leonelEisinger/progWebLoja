@@ -1,5 +1,5 @@
 <?php
-include_once("../fachadaFunc.php");
+include_once("../includes/fachadaFunc.php");
 
 $id = @$_GET["id"];
 

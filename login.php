@@ -2,7 +2,7 @@
 $page_title = "Autenticação Obrigatória";
 
 // layout do cabeçalho
-include_once "layout_header.php";
+include_once "includes/layout_header.php";
 ?>
 <section>
 <form action="func/executa_login.php" method="POST" role="form">

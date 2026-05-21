@@ -1,15 +1,18 @@
 <?php
 
-include_once("../fachadaFunc.php");
+include_once("../includes/fachadaFunc.php");
 
 $id = @$_GET["id"];
 
-$dao = $factory->getProdutoDao();
+$daoP = $factory->getProdutoDao();
+$daoE = $factory->getEstoqueDao();
 
 $produto = new Produto($id, null, null, null, null);
+$estoque = new Estoque(null, $id, null, null);
 
-$dao->remove($produto);
+$daoE->removePorProdutoId($estoque);
+$daoP->remove($produto);
 
-header("Location: index.php");
+header("Location: ../index.php");
 
 ?>
